@@ -32,15 +32,10 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        /*
         if(currentAttack == null)
             timeSinceLastAttack += Time.deltaTime;
-
-        if(timeSinceLastAttack >= timeBetweenAttacks )
-        {
-            attackSequence[attackNumber].enabled = true;
-        }
-
-        if (currentAttack.AttackFinished)
+        else if (currentAttack.AttackFinished)
         {
             currentAttack.enabled = false;
 
@@ -57,6 +52,11 @@ public class EnemyController : MonoBehaviour
             timeSinceLastAttack = 0;
             currentAttack = null;
         }
+
+        if (timeSinceLastAttack >= timeBetweenAttacks)
+        {
+            attackSequence[attackNumber].enabled = true;
+        }*/
     }
 
     private void CreateAttackSequence()
