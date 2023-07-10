@@ -16,7 +16,7 @@ public class EnemyController : MonoBehaviour
     private float timeBetweenAttacks;
     private float timeSinceLastAttack;
 
-    private EnemyAttack currentAttack = null;     
+    private EnemyAttack currentAttack = null;
     private EnemyAttack[] attackSequence;
     private uint attackNumber;
 

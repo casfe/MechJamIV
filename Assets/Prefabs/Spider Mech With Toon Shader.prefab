@@ -219,6 +219,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7373621886085166919, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+      propertyPath: m_Name
+      value: GEO_Cannon
+      objectReference: {fileID: 0}
     - target: {fileID: 7690673310731952808, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.0048237415
@@ -416,6 +420,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5436308764296646419, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
   m_PrefabInstance: {fileID: 1049729570706062188}
   m_PrefabAsset: {fileID: 0}
+--- !u!4 &7218040787847158212 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 7690673310731952808, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+  m_PrefabInstance: {fileID: 1049729570706062188}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &9197362871053621336 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8156858637238461236, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
@@ -448,11 +457,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1e42a40648d80f94c9cde1ff63805d99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  laserGun: {fileID: 1750942316740015504}
-  rotateSpeed: 0.5
-  fireRotationSpeed: 1
-  minAngle: 135
-  maxAnagle: 225
+  laserGunSet: {fileID: 1750942316740015504}
+  laserCannon: {fileID: 7218040787847158212}
+  firePoint: {fileID: 8648186711720339965}
   fireIterations: 6
   standbyTime: 1
-  iteration: 0
+  rotateSpeed: 100
+  fireRotationSpeed: 20
+  fireAngle: 20
+  raiseSpeed: 3
+  descendSpeed: 10
+  raiseAngle: 7.5
