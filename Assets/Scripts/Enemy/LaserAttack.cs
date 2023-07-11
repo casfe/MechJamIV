@@ -12,6 +12,7 @@ public class LaserAttack : EnemyAttack
     [SerializeField] float standbyTime = 2.0f;
 
     [Header("Cannon Horizontal Rotation")]
+    [SerializeField] RotateDirection startDirection = RotateDirection.Clockwise;
     [SerializeField] float rotateSpeed = 0.5f;
     [SerializeField] float fireRotationSpeed = 1.0f;
     [Range(0, 180)]
@@ -32,6 +33,8 @@ public class LaserAttack : EnemyAttack
     [Header("Debugging")]
     float cannonAngle;
 
+    enum RotateDirection { Clockwise, AntiClockwise };
+
     enum RotationState
     {
         Standby,
@@ -49,7 +52,6 @@ public class LaserAttack : EnemyAttack
     private void OnEnable()
     {
         laserLine = laserGunSet.GetComponent<LineRenderer>();
-        //raiseGun = true;
     }
 
     void Update()
@@ -57,13 +59,7 @@ public class LaserAttack : EnemyAttack
         switch(state)
         {
             case RotationState.RotateTowardsPlayer:
-                laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
-
-                if (laserGunSet.transform.rotation.eulerAngles.y >= 180)
-                {
-                    state = RotationState.Standby;
-                    Invoke("FireLaser", standbyTime);
-                }
+                RotateTowardsPlayer();
             break;
 
             case RotationState.RotateClockwise:
@@ -77,20 +73,64 @@ public class LaserAttack : EnemyAttack
             break;
 
             case RotationState.RotateToOrigin:
-                laserGunSet.Rotate(0, -rotateSpeed * Time.deltaTime, 0, Space.Self);
-
-                if (laserGunSet.rotation.y <= 0)
-                {
-                    laserCannon.rotation = Quaternion.identity;
-                    state = RotationState.Standby;
-                    AttackFinished = true;
-                }
+                RotateToOrigin();
            break;
         }
 
         UpdateVerticalRotation();
 
         cannonAngle = laserCannon.eulerAngles.x;
+    }
+
+    private void RotateTowardsPlayer()
+    {
+        if(startDirection == RotateDirection.Clockwise)
+        {
+            laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
+
+            if (laserGunSet.transform.rotation.eulerAngles.y >= 180)
+            {
+                state = RotationState.Standby;
+                Invoke("FireLaser", standbyTime);
+            }
+        }
+        else if(startDirection == RotateDirection.AntiClockwise)
+        {
+            laserGunSet.Rotate(0, -rotateSpeed * Time.deltaTime, 0, Space.Self);
+
+            if (laserGunSet.transform.rotation.eulerAngles.y <= 180)
+            {
+                state = RotationState.Standby;
+                Invoke("FireLaser", standbyTime);
+            }
+
+        }
+    }
+
+    private void RotateToOrigin()
+    {
+        if (startDirection == RotateDirection.Clockwise)
+        {
+            laserGunSet.Rotate(0, -rotateSpeed * Time.deltaTime, 0, Space.Self);
+
+            if (laserGunSet.rotation.y <= 0)
+            {
+                laserCannon.rotation = Quaternion.identity;
+                state = RotationState.Standby;
+                AttackFinished = true;
+            }
+        }
+        else if(startDirection == RotateDirection.AntiClockwise)
+        {
+            laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
+
+            if (laserGunSet.rotation.y >= 0)
+            {
+                laserCannon.rotation = Quaternion.identity;
+                state = RotationState.Standby;
+                AttackFinished = true;
+            }
+        }
     }
 
     private void UpdateLaserLine()
@@ -166,9 +206,13 @@ public class LaserAttack : EnemyAttack
 
     private void FireLaser()
     {
-        iteration++;
-        state = RotationState.RotateClockwise;
+        iteration++;        
         laserLine.enabled = true;
+
+        if (startDirection == RotateDirection.Clockwise)
+            state = RotationState.RotateClockwise;
+        else
+            state = RotationState.RotateAntiClockwise;        
     }
 
     private void OnDrawGizmos()

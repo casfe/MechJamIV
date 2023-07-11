@@ -594,6 +594,18 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 453969764355949082, guid: da5db031e332ba64ab481e62b0331814, type: 3}
+      propertyPath: fireIterations
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 453969764355949082, guid: da5db031e332ba64ab481e62b0331814, type: 3}
+      propertyPath: startDirection
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 453969764355949082, guid: da5db031e332ba64ab481e62b0331814, type: 3}
+      propertyPath: fireRotationSpeed
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 7729109467104313036, guid: da5db031e332ba64ab481e62b0331814, type: 3}
       propertyPath: m_RootOrder
       value: 4
