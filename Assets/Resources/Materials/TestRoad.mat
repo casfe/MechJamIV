@@ -7,8 +7,13 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
+<<<<<<< Updated upstream:Assets/Resources/Materials/New Material.mat
   m_Name: New Material
   m_Shader: {fileID: 46, guid: 0000000000000000f000000000000000, type: 0}
+=======
+  m_Name: TestRoad
+  m_Shader: {fileID: 4800000, guid: 313fcf3aebc04cf4ab4f8c5f2850be7f, type: 3}
+>>>>>>> Stashed changes:Assets/Resources/Materials/TestRoad.mat
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords: []
@@ -23,6 +28,13 @@ Material:
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
+<<<<<<< Updated upstream:Assets/Resources/Materials/New Material.mat
+=======
+    - _BaseMap:
+        m_Texture: {fileID: 2800000, guid: 103a6553449be924883b64d61760abd4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+>>>>>>> Stashed changes:Assets/Resources/Materials/TestRoad.mat
     - _BumpMap:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -44,7 +56,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 103a6553449be924883b64d61760abd4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -78,6 +90,11 @@ Material:
     - _UVSec: 0
     - _ZWrite: 1
     m_Colors:
+<<<<<<< Updated upstream:Assets/Resources/Materials/New Material.mat
     - _Color: {r: 0.9150943, g: 0.082013145, b: 0.082013145, a: 1}
+=======
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 1, g: 1, b: 1, a: 1}
+>>>>>>> Stashed changes:Assets/Resources/Materials/TestRoad.mat
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
   m_BuildTextureStacks: []
