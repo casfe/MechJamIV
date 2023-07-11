@@ -1766,6 +1766,8 @@ GameObject:
   - component: {fileID: 2519680985505168136}
   - component: {fileID: 8752756477890098155}
   - component: {fileID: 6967674607890790676}
+  - component: {fileID: 3205215176206568635}
+  - component: {fileID: 638860665483442550}
   m_Layer: 0
   m_Name: Spider Mech
   m_TagString: Untagged
@@ -1799,7 +1801,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8156858637238461236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 573fa2c7e52605045b6fe19774d7f80a, type: 3}
   m_Name: 
@@ -1841,6 +1843,44 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
+--- !u!114 &3205215176206568635
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156858637238461236}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3cdd5fe42efacd84eb7c5d2d0f454c46, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  machineGun: {fileID: 3837155579138348273}
+  machineGunRotateSpeed: 1
+  machineGunDamage: 0
+--- !u!114 &638860665483442550
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8156858637238461236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e42a40648d80f94c9cde1ff63805d99, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  laserGunSet: {fileID: 1647749810797973244}
+  laserCannon: {fileID: 7690673310731952808}
+  firePoint: {fileID: 0}
+  fireIterations: 6
+  standbyTime: 1
+  rotateSpeed: 100
+  fireRotationSpeed: 20
+  fireAngle: 20
+  raiseSpeed: 3
+  descendSpeed: 10
+  raiseAngle: 7.5
 --- !u!1 &8387815768641066521
 GameObject:
   m_ObjectHideFlags: 0
