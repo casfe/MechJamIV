@@ -43,6 +43,10 @@ PrefabInstance:
       propertyPath: firePoint
       value: 
       objectReference: {fileID: 8648186711720339965}
+    - target: {fileID: 638860665483442550, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 824056615486831110, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -163,6 +167,14 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 219ae24cded896c4785bc10be6e887c2, type: 2}
+    - target: {fileID: 6967674607890790676, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+      propertyPath: minesToSpawn
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 6967674607890790676, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+      propertyPath: timeBetweenMines
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7336983262645192096, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       propertyPath: m_RootOrder
       value: 4

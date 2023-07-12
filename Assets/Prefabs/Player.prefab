@@ -52,8 +52,8 @@ SkinnedMeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 4133386896289917737, guid: a550de4204a4a1a45923e9c14c3bc778, type: 3}
-  - {fileID: 6664358993437552698, guid: a550de4204a4a1a45923e9c14c3bc778, type: 3}
+  - {fileID: 2100000, guid: 597d850f3f16f464186b4831592e774c, type: 2}
+  - {fileID: 2100000, guid: 597d850f3f16f464186b4831592e774c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -353,7 +353,7 @@ GameObject:
   - component: {fileID: 4898505670274520105}
   m_Layer: 0
   m_Name: Player
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -372,7 +372,7 @@ Transform:
   m_Children:
   - {fileID: 2386455674009326846}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &414515738919692567
 CapsuleCollider:
@@ -960,6 +960,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2386455674009326846}
   - component: {fileID: 488595784227078715}
+  - component: {fileID: 4725941506393814825}
   m_Layer: 0
   m_Name: Rig Pivot
   m_TagString: Untagged
@@ -1005,6 +1006,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &4725941506393814825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475675952193171815}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6f1eae199ecbc147878b48f699938d8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7112041156817396430
 GameObject:
   m_ObjectHideFlags: 0
