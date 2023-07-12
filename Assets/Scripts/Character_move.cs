@@ -43,8 +43,6 @@ public class Character_move : MonoBehaviour
             transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
 
     }
-<<<<<<< Updated upstream
-=======
 
     /// <summary>
     /// Manages player pushing A button to move left.
@@ -125,5 +123,5 @@ public class Character_move : MonoBehaviour
     {
         speed -= value;
     }
->>>>>>> Stashed changes
+
 }
