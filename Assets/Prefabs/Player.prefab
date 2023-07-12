@@ -372,7 +372,7 @@ Transform:
   m_Children:
   - {fileID: 2386455674009326846}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &414515738919692567
 CapsuleCollider:
@@ -435,18 +435,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5fa6fb6adeb0d08418e9214170d09da3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cc: {fileID: 2014713091799000326}
+  rightPoint: {fileID: 0}
+  leftPoint: {fileID: 0}
+  middlePoint: {fileID: 0}
   speed: 0
-  Gravity: -9.81
-  velocity: {x: 0, y: 0, z: 0}
-  groundCheck: {fileID: 0}
-  groundDistance: 0.4
-  floorMask:
-    serializedVersion: 2
-    m_Bits: 8
-  isGrounded: 0
-  turnSmoothTime: 0.1
-  cam: {fileID: 0}
 --- !u!1 &2358678192060270284
 GameObject:
   m_ObjectHideFlags: 0
