@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1946180550901539860
+--- !u!1 &100156076840377859
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,29 +8,29 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8648186711720339965}
+  - component: {fileID: 7849423305810813617}
   m_Layer: 0
-  m_Name: FirePoint
+  m_Name: Firing Point
   m_TagString: Untagged
-  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &8648186711720339965
+--- !u!4 &7849423305810813617
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1946180550901539860}
-  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
-  m_LocalPosition: {x: -0.0012800043, y: 0.013550001, z: -0.00070000475}
+  m_GameObject: {fileID: 100156076840377859}
+  m_LocalRotation: {x: 0, y: 0.97678274, z: -0.2142324, w: 0}
+  m_LocalPosition: {x: 0.18, y: 9.681, z: -4.971}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 5035241533408212095}
+  m_Father: {fileID: 4310283290412806045}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 24.741, y: 180, z: 0}
 --- !u!1001 &1049729570706062188
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +119,10 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: d1e42e36b587d9d4ca9397533cca88b1, type: 2}
+    - target: {fileID: 3205215176206568635, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+      propertyPath: firingPoint
+      value: 
+      objectReference: {fileID: 7849423305810813617}
     - target: {fileID: 3731417333838107824, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
@@ -163,14 +167,6 @@ PrefabInstance:
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 219ae24cded896c4785bc10be6e887c2, type: 2}
-    - target: {fileID: 6967674607890790676, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
-      propertyPath: minesToSpawn
-      value: 15
-      objectReference: {fileID: 0}
-    - target: {fileID: 6967674607890790676, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
-      propertyPath: timeBetweenMines
-      value: 2
-      objectReference: {fileID: 0}
     - target: {fileID: 7336983262645192096, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -278,9 +274,9 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
-    - targetCorrespondingSourceObject: {fileID: 5436308764296646419, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+    - targetCorrespondingSourceObject: {fileID: 3837155579138348273, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 8648186711720339965}
+      addedObject: {fileID: 7849423305810813617}
     m_AddedComponents:
     - targetCorrespondingSourceObject: {fileID: 2198591464206266837, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
       insertIndex: -1
@@ -400,8 +396,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 3837155579138348273, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
   m_PrefabInstance: {fileID: 1049729570706062188}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &5035241533408212095 stripped
+--- !u!4 &8648186711720339965 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 5436308764296646419, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
+  m_CorrespondingSourceObject: {fileID: 8544987128347513489, guid: d901a486843a3244ab13712c7f5e695a, type: 3}
   m_PrefabInstance: {fileID: 1049729570706062188}
   m_PrefabAsset: {fileID: 0}

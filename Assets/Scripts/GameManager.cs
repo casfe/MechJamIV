@@ -34,7 +34,7 @@ public class GameManager : MonoBehaviour
 
     public void EndGame()
     {
-        Time.timeScale = 0;
         gameOverMessage.SetActive(true);
+        Time.timeScale = 0;        
     }
 }

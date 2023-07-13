@@ -49,12 +49,6 @@ public class LaserAttack : EnemyAttack
         ReturnToOrigin
     }
 
-    private void Awake()
-    {
-        laserLine = laserGunSet.GetComponent<LineRenderer>();
-        InitializeValues(0);
-    }
-
     private void OnEnable()
     {
         laserLine = laserGunSet.GetComponent<LineRenderer>();
@@ -323,7 +317,7 @@ public class LaserAttack : EnemyAttack
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
+        //Gizmos.color = Color.red;
+        //Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
     }
 }

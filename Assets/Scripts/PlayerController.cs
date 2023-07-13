@@ -30,6 +30,7 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Destroy(collision.gameObject);
             GameManager.Instance.EndGame();
+            this.enabled = false;
         }
     }
 

@@ -167,6 +167,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1149174438940550511
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7097571389626833373}
+  m_Layer: 0
+  m_Name: Machine Gun Firing Point
+  m_TagString: Untagged
+  m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7097571389626833373
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1149174438940550511}
+  m_LocalRotation: {x: -0, y: 0.97678274, z: -0.2142324, w: 0}
+  m_LocalPosition: {x: 0.18, y: 4.990484, z: -4.9710007}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7336983262645192096}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 24.741, y: 180, z: 0}
 --- !u!1 &1328758908378254871
 GameObject:
   m_ObjectHideFlags: 0
@@ -279,7 +310,8 @@ Transform:
   m_LocalPosition: {x: 0.07376954, y: -3.7856872, z: 6.7229657}
   m_LocalScale: {x: 68.820984, y: 362.71017, z: 43.02813}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 8544987128347513489}
   m_Father: {fileID: 7690673310731952808}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -333,6 +365,37 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!1 &1554687029620170616
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8544987128347513489}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 7148428337604731935, guid: 0000000000000000d000000000000000, type: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8544987128347513489
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1554687029620170616}
+  m_LocalRotation: {x: -0.7071068, y: 0, z: 0, w: 0.7071068}
+  m_LocalPosition: {x: -0.0012800043, y: 0.013550001, z: -0.00070000475}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5436308764296646419}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!1 &1603832060042338569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1791,8 +1854,9 @@ Transform:
   - {fileID: 3837155579138348273}
   - {fileID: 109824758069602426}
   - {fileID: 2733903985210059603}
+  - {fileID: 7097571389626833373}
   m_Father: {fileID: 0}
-  m_RootOrder: 5
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2519680985505168136
 MonoBehaviour:
@@ -1821,9 +1885,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 0}
-  missle1Offset: {x: 0, y: 0, z: 0}
-  missle2Offset: {x: 0, y: 0, z: 0}
-  missle3Offset: {x: 0, y: 0, z: 0}
+  wavesToFire: 1
+  timeBetweenWaves: 1
+  leftSpawnPoint: {fileID: 0}
+  middleSpawnPoint: {fileID: 0}
+  rightSpawnPoint: {fileID: 0}
 --- !u!114 &6967674607890790676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1837,8 +1903,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minePrefab: {fileID: 6402533078647997810, guid: 45cb4c028d2e29042a5b054dab30b602, type: 3}
-  minesToSpawn: 0
-  timeBetweenMines: 0
+  minesToSpawn: 15
+  timeBetweenMines: 2
   selectSpawnPointsRandomly: 0
   dropMinesSimulatenously: 0
   spawnPoints:
@@ -1858,8 +1924,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   machineGun: {fileID: 3837155579138348273}
+  firingPoint: {fileID: 7097571389626833373}
   machineGunRotateSpeed: 1
-  machineGunDamage: 0
+  machineGunSparks: {fileID: 0}
+  totalShots: 5
+  distanceBetweenSparks: 1
+  timeBetweenSparks: 0.2
 --- !u!114 &638860665483442550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1875,15 +1945,8 @@ MonoBehaviour:
   laserGunSet: {fileID: 1647749810797973244}
   laserCannon: {fileID: 7690673310731952808}
   firePoint: {fileID: 0}
-  fireIterations: 2
   standbyTime: 1
-  startDirection: 0
-  rotateSpeed: 100
-  fireRotationSpeed: 20
-  fireAngle: 20
-  raiseSpeed: 6
-  descendSpeed: 10
-  raiseAngle: 7.5
+  attackTypes: []
 --- !u!1 &8387815768641066521
 GameObject:
   m_ObjectHideFlags: 0

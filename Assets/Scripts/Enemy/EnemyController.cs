@@ -26,7 +26,7 @@ public class EnemyController : MonoBehaviour
         health = (int)maxHealth;
         timeBetweenAttacks = initialTimeBetweenAttacks;
 
-        enemyAttackList.Add(GetComponent<MissileAttack>());
+        enemyAttackList.Add(GetComponent<RocketAttack>());
     }
 
     // Update is called once per frame
