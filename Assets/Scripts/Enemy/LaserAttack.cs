@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 using UnityEngine;
 
 public class LaserAttack : EnemyAttack
@@ -8,32 +10,34 @@ public class LaserAttack : EnemyAttack
     public Transform laserCannon;
     public Transform firePoint;
 
-    [SerializeField] int fireIterations = 3;
     [SerializeField] float standbyTime = 2.0f;
 
-    [Header("Cannon Horizontal Rotation")]
-    [SerializeField] RotateDirection startDirection = RotateDirection.Clockwise;
-    [SerializeField] float rotateSpeed = 0.5f;
-    [SerializeField] float fireRotationSpeed = 1.0f;
-    [Range(0, 180)]
-    [SerializeField] float fireAngle = 30;
+    [SerializeField] LaserAttackValues[] attackTypes;
 
-    [Header("Cannon Veritcal Rotation")]
-    [SerializeField] float raiseSpeed = 0.2f;
-    [SerializeField] float descendSpeed = 0.5f;
-    [Range(0, 90)]
-    [SerializeField] float raiseAngle = 10;
+    private int fireIterations;
 
-    LineRenderer laserLine;
+    // Cannon Horizontal Rotation
+    private RotateDirection startDirection;
+    private float rotateSpeed;
+    private float fireRotationSpeed;
+    private float fireAngle;
+
+    // Cannon Veritcal Rotation
+    private float raiseSpeed;
+    private float descendSpeed;
+    private float raiseAngle;
+
+    private bool setLimit;
+    private float limitAngle;
+
+    private LineRenderer laserLine;
    
     private int iteration = 0;
+    private int attacksPerformed = 0;
     private bool raiseGun = true;
     private RotationState state = RotationState.RotateTowardsPlayer;
 
-    [Header("Debugging")]
-    float cannonAngle;
-
-    enum RotateDirection { Clockwise, AntiClockwise };
+    public enum RotateDirection { Clockwise, AntiClockwise };
 
     enum RotationState
     {
@@ -41,17 +45,34 @@ public class LaserAttack : EnemyAttack
         RotateTowardsPlayer,
         RotateClockwise,
         RotateAntiClockwise,
-        RotateToOrigin
+        ReturnToCenter,
+        ReturnToOrigin
     }
 
     private void Awake()
     {
-        laserLine = laserGunSet.GetComponent<LineRenderer>();    
+        laserLine = laserGunSet.GetComponent<LineRenderer>();
+        InitializeValues(0);
     }
 
     private void OnEnable()
     {
         laserLine = laserGunSet.GetComponent<LineRenderer>();
+        InitializeValues(0);
+    }
+
+    private void InitializeValues(int index)
+    {
+        fireIterations = attackTypes[index].fireIterations;
+        startDirection = attackTypes[index].startDirection;
+        rotateSpeed = attackTypes[index].rotateSpeed;
+        fireRotationSpeed = attackTypes[index].fireRotationSpeed;
+        fireAngle = attackTypes[index].fireAngle;
+        raiseSpeed = attackTypes[index].raiseSpeed;
+        descendSpeed = attackTypes[index].descendSpeed;
+        raiseAngle = attackTypes[index].raiseAngle;
+        setLimit = attackTypes[index].setLimit;
+        limitAngle = attackTypes[index].limitAngle;
     }
 
     void Update()
@@ -72,14 +93,16 @@ public class LaserAttack : EnemyAttack
                 UpdateLaserLine();
             break;
 
-            case RotationState.RotateToOrigin:
+            case RotationState.ReturnToCenter:
+                ReturnToCenter();
+            break;
+
+            case RotationState.ReturnToOrigin:
                 RotateToOrigin();
            break;
         }
 
         UpdateVerticalRotation();
-
-        cannonAngle = laserCannon.eulerAngles.x;
     }
 
     private void RotateTowardsPlayer()
@@ -88,7 +111,7 @@ public class LaserAttack : EnemyAttack
         {
             laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
 
-            if (laserGunSet.transform.rotation.eulerAngles.y >= 180)
+            if (laserGunSet.rotation.eulerAngles.y >= 180)
             {
                 state = RotationState.Standby;
                 Invoke("FireLaser", standbyTime);
@@ -104,33 +127,75 @@ public class LaserAttack : EnemyAttack
                 Invoke("FireLaser", standbyTime);
             }
 
+
         }
     }
 
     private void RotateToOrigin()
     {
+        float rotation = rotateSpeed;
+        bool limitReached = false;
+
         if (startDirection == RotateDirection.Clockwise)
         {
-            laserGunSet.Rotate(0, -rotateSpeed * Time.deltaTime, 0, Space.Self);
-
-            if (laserGunSet.rotation.y <= 0)
-            {
-                laserCannon.rotation = Quaternion.identity;
-                state = RotationState.Standby;
-                AttackFinished = true;
-            }
+            rotation = -rotateSpeed;
+            limitReached = laserGunSet.rotation.y <= 0;
         }
         else if(startDirection == RotateDirection.AntiClockwise)
         {
-            laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
+            rotation = rotateSpeed;
+            limitReached = laserGunSet.rotation.y >= 0;
+        }
 
-            if (laserGunSet.rotation.y >= 0)
+        laserGunSet.Rotate(0, rotation * Time.deltaTime, 0, Space.Self);
+
+        if (limitReached)
+        {
+            laserCannon.rotation = Quaternion.identity;
+            state = RotationState.Standby;
+            AttackFinished = true;            
+        }
+
+    }
+
+    private void ReturnToCenter()
+    {
+        bool limitReached;
+
+        if (laserGunSet.rotation.eulerAngles.y < 180)
+        {
+            laserGunSet.Rotate(0, fireRotationSpeed * Time.deltaTime, 0, Space.Self);
+            limitReached = laserGunSet.rotation.eulerAngles.y >= 180;
+
+        }
+        else if(laserGunSet.rotation.eulerAngles.y > 180)
+        {
+            laserGunSet.Rotate(0, -fireRotationSpeed * Time.deltaTime, 0, Space.Self);
+            limitReached = laserGunSet.rotation.eulerAngles.y <= 180;
+        }
+        else
+        {
+            limitReached = true;
+        }
+
+        if (limitReached)
+        {
+            attacksPerformed++;
+            if (attacksPerformed >= attackTypes.Length)
             {
-                laserCannon.rotation = Quaternion.identity;
+                state = RotationState.ReturnToOrigin;
+            }
+            else
+            {                
+                iteration = 0;
+                raiseGun = true;
                 state = RotationState.Standby;
-                AttackFinished = true;
+
+                InitializeValues(attacksPerformed);
+                Invoke("FireLaser", standbyTime);
             }
         }
+
     }
 
     private void UpdateLaserLine()
@@ -143,42 +208,83 @@ public class LaserAttack : EnemyAttack
         if(Physics.Raycast(raycast, out RaycastHit hitInfo))
         {
             laserLine.SetPosition(1, hitInfo.point);
+
+            if(hitInfo.transform.tag == "Player")
+            {
+                GameManager.Instance.EndGame();
+            }
         }
+    }
+
+    private void RotateAndFire()
+    {
+
     }
 
     private void RotateClockwise()
     {
+        bool limitReached = false;
         laserGunSet.Rotate(0, fireRotationSpeed * Time.deltaTime, 0, Space.Self);
 
-        if (laserGunSet.transform.rotation.eulerAngles.y >= 180 + (fireAngle / 2))
+        if(setLimit && iteration == fireIterations)
+        {
+            if(laserGunSet.transform.rotation.eulerAngles.y >= limitAngle)
+            {
+                limitReached = true;
+            }
+
+        }
+        else if (laserGunSet.transform.rotation.eulerAngles.y >= 180 + (fireAngle / 2))
+        {
+            limitReached = true;
+        }
+
+        if(limitReached)
         {
             iteration++;
 
             if (iteration > fireIterations)
             {
-                state = RotationState.RotateToOrigin;
+                state = RotationState.ReturnToCenter;
                 laserLine.enabled = false;
             }
             else
                 state = RotationState.RotateAntiClockwise;
         }
+
     }
 
     private void RotateAntiClockwise()
     {
+        bool limitReached = false;
         laserGunSet.Rotate(0, -fireRotationSpeed * Time.deltaTime, 0, Space.Self);
 
-        if (laserGunSet.rotation.eulerAngles.y <= 180 - (fireAngle / 2))
+        if (setLimit && iteration == fireIterations)
+        {
+            if (laserGunSet.transform.rotation.eulerAngles.y <= limitAngle)
+            {
+                limitReached = true;
+            }
+
+        }
+        else if (laserGunSet.rotation.eulerAngles.y <= 180 - (fireAngle / 2))
+        {
+            limitReached = true;
+        }
+
+        if (limitReached)
         {
             iteration++;
+
             if (iteration > fireIterations)
             {
-                state = RotationState.RotateToOrigin;
+                state = RotationState.ReturnToCenter;
                 laserLine.enabled = false;
             }
             else
                 state = RotationState.RotateClockwise;
         }
+
     }
 
     private void UpdateVerticalRotation()
@@ -195,7 +301,7 @@ public class LaserAttack : EnemyAttack
             }
         }
 
-        if (state == RotationState.RotateToOrigin)
+        if (state == RotationState.ReturnToOrigin || state == RotationState.ReturnToCenter)
         {
             if (laserCannon.eulerAngles.x < 360 && laserCannon.eulerAngles.x > 1)
                 laserCannon.Rotate(Vector3.right * descendSpeed * Time.deltaTime, Space.Self);

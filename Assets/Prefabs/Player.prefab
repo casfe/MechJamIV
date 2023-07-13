@@ -351,6 +351,7 @@ GameObject:
   - component: {fileID: 414515738919692567}
   - component: {fileID: 2014713091799000326}
   - component: {fileID: 4898505670274520105}
+  - component: {fileID: 7538988878792804778}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -372,7 +373,7 @@ Transform:
   m_Children:
   - {fileID: 2386455674009326846}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!136 &414515738919692567
 CapsuleCollider:
@@ -439,6 +440,18 @@ MonoBehaviour:
   leftPoint: {fileID: 0}
   middlePoint: {fileID: 0}
   speed: 0
+--- !u!114 &7538988878792804778
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2022259462533926637}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6219dea966bbbb14487efa16ed0ab50f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2358678192060270284
 GameObject:
   m_ObjectHideFlags: 0
