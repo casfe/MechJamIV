@@ -71,7 +71,6 @@ public class MachineGunAttack : EnemyAttack
 
     }
 
-
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
