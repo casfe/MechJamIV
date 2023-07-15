@@ -8,6 +8,8 @@ TagManager:
   - Boundary
   - Road
   - Obstacle
+  - Mine
+  - Weapon
   layers:
   - Default
   - TransparentFX
@@ -16,8 +18,8 @@ TagManager:
   - Water
   - UI
   - Hazard
-  - 
-  - 
+  - Enemy
+  - Projectile
   - 
   - 
   - 

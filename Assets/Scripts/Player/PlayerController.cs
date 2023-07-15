@@ -6,12 +6,21 @@ using UnityEngine.Events;
 
 public class PlayerController : MonoBehaviour
 {
+    [SerializeField] int maxWeaponGauage = 100;
+    [SerializeField] int gaugeIncreaseFromPickup = 20;
+    [SerializeField] GameObject bulletPrefab;
+    [SerializeField] Transform bulletSpawnPoint;    
+
     public UnityEvent OnCollideWithObstacle;
 
     Animator animator;
+    GameManager gameManager;
+
+    private int weaponGauge = 0;
 
     private void Start()
     {
+        gameManager = GameManager.Instance;
         animator = GetComponentInChildren<Animator>();
     }
 
@@ -23,32 +32,42 @@ public class PlayerController : MonoBehaviour
         }
     }
     
-    /*
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        Debug.Log("Hit " + hit.gameObject.name);
-
-        if(hit.gameObject.layer == 6) // hazard layer
-        {
-            GameManager.Instance.EndGame();
-        }
-    }*/
-    
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.layer == 6) // hazard layer
         {
             OnCollideWithObstacle.Invoke();
-            //GameObject.Destroy(collision.gameObject);
-            //GameManager.Instance.EndGame();
             animator.SetTrigger("Die");
             GetComponent<PlayerMovement>().enabled = false;
             this.enabled = false;
         }
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Weapon")
+        {
+            weaponGauge += gaugeIncreaseFromPickup;
+
+            if(weaponGauge > maxWeaponGauage)
+                weaponGauge = maxWeaponGauage;
+
+            gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
+
+            GameObject.Destroy(other.gameObject);
+        }
+    }
+
     private void FireWeapon()
     {
+        if (weaponGauge < maxWeaponGauage)
+            Debug.Log("Gauge too low");
+        else
+        {
+            weaponGauge = 0;
+            gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
 
+            Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletPrefab.transform.rotation);            
+        }
     }
 }

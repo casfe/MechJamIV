@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -8,8 +9,12 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] GameObject gameOverMessage;
+    [SerializeField] Image weaponGaugeBar;
 
     public static GameManager Instance { get; private set; }
+
+    private float maxGaugeWidth;
+    private Color defaultGaugeColor;
 
     private void Awake()
     {
@@ -25,7 +30,10 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        maxGaugeWidth = weaponGaugeBar.rectTransform.sizeDelta.x;
+        weaponGaugeBar.rectTransform.sizeDelta = new Vector2(0, weaponGaugeBar.rectTransform.sizeDelta.y);
+
+        defaultGaugeColor = weaponGaugeBar.color;
     }
 
     // Update is called once per frame
@@ -58,6 +66,18 @@ public class GameManager : MonoBehaviour
         {
             road.GetComponent<MoveTowardsPlayer>().enabled = false;
         }
+
+    }
+
+    public void SetWeaponGauge(int value, int maxValue)
+    {
+        float unitWidth = maxGaugeWidth / maxValue;
+        weaponGaugeBar.rectTransform.sizeDelta = new Vector2(unitWidth * value, weaponGaugeBar.rectTransform.sizeDelta.y);
+
+        if (value == maxValue)
+            weaponGaugeBar.color = Color.red;
+        else
+            weaponGaugeBar.color = defaultGaugeColor;
 
     }
 

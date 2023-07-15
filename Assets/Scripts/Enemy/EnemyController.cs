@@ -77,6 +77,16 @@ public class EnemyController : MonoBehaviour
         health -= amount;
     }
 
+    private void OnTriggerEnter(Collider other)
+    {
+        if(other.gameObject.layer == 8) // projectile layer
+        {
+            Debug.Log("Bullet hit mech");
+            GameObject.Destroy(other.gameObject);
+            TakeDamage(1);
+        }
+    }
+
 }
 
 public abstract class EnemyAttack : MonoBehaviour
