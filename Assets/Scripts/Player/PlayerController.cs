@@ -8,6 +8,13 @@ public class PlayerController : MonoBehaviour
 {
     public UnityEvent OnCollideWithObstacle;
 
+    Animator animator;
+
+    private void Start()
+    {
+        animator = GetComponentInChildren<Animator>();
+    }
+
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.Space))
@@ -32,8 +39,10 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.layer == 6) // hazard layer
         {
             OnCollideWithObstacle.Invoke();
-            GameObject.Destroy(collision.gameObject);
-            GameManager.Instance.EndGame();
+            //GameObject.Destroy(collision.gameObject);
+            //GameManager.Instance.EndGame();
+            animator.SetTrigger("Die");
+            GetComponent<PlayerMovement>().enabled = false;
             this.enabled = false;
         }
     }

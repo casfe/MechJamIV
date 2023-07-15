@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
+    [SerializeField] GameObject cityBuilder;
+
+    [Header("UI")]
     [SerializeField] GameObject gameOverMessage;
 
     public static GameManager Instance { get; private set; }
@@ -37,4 +40,25 @@ public class GameManager : MonoBehaviour
         gameOverMessage.SetActive(true);
         Time.timeScale = 0;        
     }
+
+    public void HaltAllObjects()
+    {
+        cityBuilder.SetActive(false);
+
+        GameObject[] obstacles = GameObject.FindGameObjectsWithTag("Obstacle");
+
+        foreach(GameObject obstacle in obstacles)
+        {
+            obstacle.GetComponent<MoveTowardsPlayer>().enabled = false;
+        }
+
+        GameObject[] roads = GameObject.FindGameObjectsWithTag("Road");
+
+        foreach(GameObject road in roads)
+        {
+            road.GetComponent<MoveTowardsPlayer>().enabled = false;
+        }
+
+    }
+
 }
