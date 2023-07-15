@@ -1308,6 +1308,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.x
       value: 8.377325
       objectReference: {fileID: 0}
+    - target: {fileID: 6298510216943733722, guid: 934cd57c7d10c8249b61402d5b1ae058, type: 3}
+      propertyPath: m_WarningMessage
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 6475675952193171815, guid: 934cd57c7d10c8249b61402d5b1ae058, type: 3}
       propertyPath: m_IsActive
       value: 0
