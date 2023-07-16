@@ -12,7 +12,13 @@ public class PlayerController : MonoBehaviour
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnPoint;    
 
+    [Header("Events")]
     public UnityEvent OnCollideWithObstacle;
+
+    [Header("FMOD Event paths")]
+    [SerializeField] string weaponShoot;
+    [SerializeField] string weaponPickup;
+    [SerializeField] string weaponReady;
 
     Animator animator;
     GameManager gameManager;
@@ -52,8 +58,15 @@ public class PlayerController : MonoBehaviour
         {
             weaponGauge += gaugeIncreaseFromPickup;
 
-            if(weaponGauge > maxWeaponGauage)
+            if(weaponGauge > maxWeaponGauage) 
+            {
                 weaponGauge = maxWeaponGauage;
+                FMODUtilities.PlayOneShotUsingString(weaponReady);
+            }
+            else
+            {
+                FMODUtilities.PlayOneShotUsingString(weaponPickup);
+            }
 
             gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
 
@@ -65,12 +78,14 @@ public class PlayerController : MonoBehaviour
     {
         if (weaponGauge < maxWeaponGauage)
             Debug.Log("Gauge too low");
+        //this should play a sound
         else
         {
             weaponGauge = 0;
             gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
 
-            Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletPrefab.transform.rotation);            
+            Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletPrefab.transform.rotation);
+            FMODUtilities.PlayOneShotUsingString(weaponShoot);
         }
     }
 }

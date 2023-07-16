@@ -19,10 +19,18 @@ public class MachineGunAttack : EnemyAttack
     private Vector3 hitPosition;
     private Vector3 direction;
 
+    [Header("FMOD event paths")]
+    [SerializeField] string machineGunStart;
+    [SerializeField] string machineGunAttack;
+
+
+
     private void OnEnable()
     {
         shotsFired = 0;
         hitPosition = new Vector3();
+        FMODUtilities.PlayOneShotUsingString(machineGunAttack);
+
         if(Physics.Raycast(firingPoint.position, firingPoint.forward, out RaycastHit hit))
         {
             Vector3 spawnPos = new Vector3(hit.point.x, 0.53f, hit.point.z);
