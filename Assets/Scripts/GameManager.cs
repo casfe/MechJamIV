@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
@@ -10,6 +11,9 @@ public class GameManager : MonoBehaviour
     [Header("UI")]
     [SerializeField] GameObject gameOverMessage;
     [SerializeField] GameObject winMessage;
+    [SerializeField] GameObject pauseMessage;
+    [SerializeField] GameObject menuButtons;
+    [SerializeField] Button resumeButton;
     [SerializeField] Image weaponGaugeBar;
     [SerializeField] RectTransform enemyHealthBar;
 
@@ -18,6 +22,8 @@ public class GameManager : MonoBehaviour
     private float maxGaugeWidth;
     private Color defaultGaugeColor;
     private float maxHealthbarWidth;
+
+    private bool gamePaused = false;
 
     private void Awake()
     {
@@ -42,18 +48,39 @@ public class GameManager : MonoBehaviour
         defaultGaugeColor = weaponGaugeBar.color;
 
         maxHealthbarWidth = enemyHealthBar.sizeDelta.x;
+
+        Time.timeScale = 1;
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        if(Input.GetButtonDown("Cancel"))
+        {
+            TogglePause();
+        }
+    }
+
+    public void LoadScene(int buildIndex)
+    {
+        SceneManager.LoadScene(buildIndex);
+    }
+
+    public void TogglePause()
+    {
+        gamePaused = !gamePaused;
+
+        pauseMessage.SetActive(gamePaused);
+        menuButtons.SetActive(gamePaused);
+        resumeButton.gameObject.SetActive(gamePaused);
+
+        Time.timeScale = gamePaused ? 0: 1;        
     }
 
     public void EndGame()
     {
         gameOverMessage.SetActive(true);
-
+        menuButtons.SetActive(true);
         Time.timeScale = 0;        
     }
 
