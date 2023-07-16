@@ -9,12 +9,15 @@ public class GameManager : MonoBehaviour
 
     [Header("UI")]
     [SerializeField] GameObject gameOverMessage;
+    [SerializeField] GameObject winMessage;
     [SerializeField] Image weaponGaugeBar;
+    [SerializeField] RectTransform enemyHealthBar;
 
     public static GameManager Instance { get; private set; }
 
     private float maxGaugeWidth;
     private Color defaultGaugeColor;
+    private float maxHealthbarWidth;
 
     private void Awake()
     {
@@ -30,10 +33,15 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        gameOverMessage.SetActive(false);
+        winMessage.SetActive(false);
+
         maxGaugeWidth = weaponGaugeBar.rectTransform.sizeDelta.x;
         weaponGaugeBar.rectTransform.sizeDelta = new Vector2(0, weaponGaugeBar.rectTransform.sizeDelta.y);
 
         defaultGaugeColor = weaponGaugeBar.color;
+
+        maxHealthbarWidth = enemyHealthBar.sizeDelta.x;
     }
 
     // Update is called once per frame
@@ -42,11 +50,17 @@ public class GameManager : MonoBehaviour
         
     }
 
-
     public void EndGame()
     {
         gameOverMessage.SetActive(true);
+
         Time.timeScale = 0;        
+    }
+
+    public void WinGame()
+    {
+        winMessage.SetActive(true);
+        Time.timeScale = 0;
     }
 
     public void HaltAllObjects()
@@ -75,10 +89,15 @@ public class GameManager : MonoBehaviour
         weaponGaugeBar.rectTransform.sizeDelta = new Vector2(unitWidth * value, weaponGaugeBar.rectTransform.sizeDelta.y);
 
         if (value == maxValue)
-            weaponGaugeBar.color = Color.red;
+            weaponGaugeBar.color = Color.green;
         else
             weaponGaugeBar.color = defaultGaugeColor;
+    }
 
+    public void SetEnemyHealthBar(int health, int maxHealth)
+    {
+        float unitWidth = maxHealthbarWidth / maxHealth;
+        enemyHealthBar.sizeDelta = new Vector2(unitWidth * health, enemyHealthBar.sizeDelta.y);
     }
 
 }

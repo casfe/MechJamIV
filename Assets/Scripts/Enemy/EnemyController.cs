@@ -6,9 +6,12 @@ using UnityEngine;
 public class EnemyController : MonoBehaviour
 {
     [SerializeField]
-    uint maxHealth = 100;
+    int maxHealth = 100;
+    [Tooltip("The amount of damage to take when hit my the player's weapon")]
+    [SerializeField] int damagePerBlast = 10;
     [SerializeField]
     float initialTimeBetweenAttacks = 5.0f;
+    
     
     private List<EnemyAttack> enemyAttackList = new List<EnemyAttack>();
 
@@ -20,6 +23,8 @@ public class EnemyController : MonoBehaviour
     private EnemyAttack[] attackSequence;
     private uint attackNumber;
 
+    GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +32,7 @@ public class EnemyController : MonoBehaviour
         timeBetweenAttacks = initialTimeBetweenAttacks;
 
         enemyAttackList.Add(GetComponent<RocketAttack>());
+        gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -57,6 +63,8 @@ public class EnemyController : MonoBehaviour
         {
             attackSequence[attackNumber].enabled = true;
         }*/
+
+
     }
 
     private void CreateAttackSequence()
@@ -75,6 +83,11 @@ public class EnemyController : MonoBehaviour
     public void TakeDamage(int amount)
     {
         health -= amount;
+
+        gameManager.SetEnemyHealthBar(health, maxHealth);
+
+        if (health <= 0)
+            gameManager.WinGame();
     }
 
     private void OnTriggerEnter(Collider other)
@@ -83,7 +96,7 @@ public class EnemyController : MonoBehaviour
         {
             Debug.Log("Bullet hit mech");
             GameObject.Destroy(other.gameObject);
-            TakeDamage(1);
+            TakeDamage(damagePerBlast);
         }
     }
 

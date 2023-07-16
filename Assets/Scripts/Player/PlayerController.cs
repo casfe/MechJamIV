@@ -7,6 +7,7 @@ using UnityEngine.Events;
 public class PlayerController : MonoBehaviour
 {
     [SerializeField] int maxWeaponGauage = 100;
+    [SerializeField] int startingWeaponGauge = 0;
     [SerializeField] int gaugeIncreaseFromPickup = 20;
     [SerializeField] GameObject bulletPrefab;
     [SerializeField] Transform bulletSpawnPoint;    
@@ -22,6 +23,8 @@ public class PlayerController : MonoBehaviour
     {
         gameManager = GameManager.Instance;
         animator = GetComponentInChildren<Animator>();
+
+        weaponGauge = startingWeaponGauge;
     }
 
     void Update()
