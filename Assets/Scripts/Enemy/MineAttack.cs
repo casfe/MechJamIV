@@ -10,62 +10,98 @@ public class MineAttack : EnemyAttack
     [SerializeField] float timeBetweenMines = 1;    
     [SerializeField] bool selectSpawnPointsRandomly;
     [SerializeField] bool dropMinesSimulatenously;
-    [SerializeField] Transform[] spawnPoints;
+    [SerializeField] Transform spawnPoint;
+    [SerializeField] Transform[] dropPoints;
+    [SerializeField] float sidewaysMovement;
 
     float timeSinceLastMine = 0;
     uint minesSpawned = 0;
 
-    private int spawnPointNumber = 0;
+    private int spawnPointNumber = -1;
     private bool descending = false;
+    private bool atDropPoint = false;
+    private int pointChosen;
 
     private void OnEnable()
     {
-        DropMine();
+        pointChosen = PickNextPoint();
     }
 
-    // Update is called once per frame
     void Update()
     {
         timeSinceLastMine += Time.deltaTime;
 
-        if(timeSinceLastMine >= timeBetweenMines)
+        if (dropMinesSimulatenously)
         {
-            timeSinceLastMine = 0;
-            DropMine();
+            if (timeSinceLastMine >= timeBetweenMines)
+            {
+                foreach (Transform dropPoint in dropPoints)
+                {
+                    Instantiate(minePrefab, dropPoint.position, Quaternion.identity);
+                    minesSpawned++;
+                }
+            }
         }
-
-        if(minesSpawned >= minesToSpawn)
+        else
         {
-            AttackFinished = true;
-            this.enabled = false;
+            if (atDropPoint)
+            {
+                if (timeSinceLastMine >= timeBetweenMines)
+                {
+                    timeSinceLastMine = 0;
+                    Instantiate(minePrefab, spawnPoint.position, Quaternion.identity);
+                    atDropPoint = false;
+                    minesSpawned++;
+
+                    pointChosen = PickNextPoint();
+                }
+
+                if (minesSpawned >= minesToSpawn)
+                {
+                    AttackFinished = true;
+                    this.enabled = false;
+                }
+            }
+            else
+            {
+                MoveToPosition(dropPoints[pointChosen]);
+            }
         }
     }
 
-    private void DropMine()
+    private void MoveToPosition(Transform dropPoint)
     {
-        if (dropMinesSimulatenously)
+        if(transform.position.x < dropPoint.position.x)
         {
-            foreach (Transform spawnPoint in spawnPoints)
-            {
-                Instantiate(minePrefab, spawnPoint.position, Quaternion.identity);
-                minesSpawned++;
-            }
+            transform.Translate(Vector3.right * sidewaysMovement * Time.deltaTime);
+
+            if (transform.position.x >= dropPoint.position.x)
+                atDropPoint = true;
+
         }
-        else if(selectSpawnPointsRandomly)
+        else if(transform.position.x > dropPoint.position.x)
+        {
+            transform.Translate(Vector3.left * sidewaysMovement * Time.deltaTime);
+
+            if (transform.position.x <= dropPoint.position.x)
+                atDropPoint = true;
+        }
+        
+    }
+
+    private int PickNextPoint()
+    {        
+        if(selectSpawnPointsRandomly)
         {
             int randomPick;
             do {
                 randomPick = Random.Range(0, 3);
             } while (randomPick == 3);
 
-            Instantiate(minePrefab, spawnPoints[randomPick].position, Quaternion.identity);
-
-            minesSpawned++;
+            return randomPick;
         }
         else
         {
-            Instantiate(minePrefab, spawnPoints[spawnPointNumber].position, Quaternion.identity);
-
             if (descending)
             {
                 if (spawnPointNumber > 0)
@@ -87,7 +123,7 @@ public class MineAttack : EnemyAttack
                 }
             }
 
-            minesSpawned++;
+            return spawnPointNumber;
         }
     }
 }

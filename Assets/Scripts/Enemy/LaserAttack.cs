@@ -121,7 +121,6 @@ public class LaserAttack : EnemyAttack
                 Invoke("FireLaser", standbyTime);
             }
 
-
         }
     }
 
@@ -207,6 +206,10 @@ public class LaserAttack : EnemyAttack
             {
                 GameManager.Instance.EndGame();
             }
+        }
+        else
+        {
+            Debug.Log("Laser raycast not hitting anything");
         }
     }
 
@@ -317,7 +320,7 @@ public class LaserAttack : EnemyAttack
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
     }
 }

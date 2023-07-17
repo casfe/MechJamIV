@@ -229,8 +229,7 @@ Transform:
   m_LocalPosition: {x: 0.000051116942, y: 0.0037609863, z: 0.0021244811}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 4556183091269169641}
+  m_Children: []
   m_Father: {fileID: 5212892148936893768}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -624,14 +623,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1275074009126911526}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.179, y: -0.807965, z: -5.132}
+  m_LocalRotation: {x: 0.9816272, y: -0, z: -0, w: 0.1908091}
+  m_LocalPosition: {x: 0.179, y: 9.704966, z: -5.200001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 1176873890880696305}
+  m_Father: {fileID: 8167500803311185505}
   m_RootOrder: -1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 158, y: 0, z: 0}
 --- !u!1 &1325629672445102047
 GameObject:
   m_ObjectHideFlags: 0
@@ -4281,7 +4280,7 @@ Transform:
   m_GameObject: {fileID: 8156858637238461236}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1.5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8083248917941245956}
@@ -4306,12 +4305,12 @@ BoxCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 12.818854, y: 17.706635, z: 12.818853}
-  m_Center: {x: 0, y: 9.367249, z: 0}
+  m_Size: {x: 12.818854, y: 16.256886, z: 12.818853}
+  m_Center: {x: 0, y: 10.092129, z: 0}
 --- !u!114 &2519680985505168136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4319,7 +4318,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8156858637238461236}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 573fa2c7e52605045b6fe19774d7f80a, type: 3}
   m_Name: 
@@ -4340,6 +4339,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   missilePrefab: {fileID: 6335767985924286967, guid: 9c8cedbc7ed98fc46b26837b4085a531, type: 3}
+  rocketLauncher: {fileID: 8083248917941245956}
+  launcherRotateSpeed: 50
   wavesToFire: 1
   timeBetweenWaves: 1
   leftSpawnPoint: {fileID: 0}
@@ -4359,12 +4360,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   minePrefab: {fileID: 1317905405004388176, guid: 9bf8cd7741a9b994fac8b330bfd69557, type: 3}
   minesToSpawn: 15
-  timeBetweenMines: 2
+  timeBetweenMines: 1
   selectSpawnPointsRandomly: 0
   dropMinesSimulatenously: 0
   spawnPoint: {fileID: 1284859538438181599}
-  dropPoints: []
-  sidewaysMovement: 0
+  dropPoints:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  sidewaysMovement: 5
 --- !u!114 &3205215176206568635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4760,6 +4764,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 4556183091269169641}
   - {fileID: 6636559549772281920}
   - {fileID: 7340654711513959569}
   - {fileID: 5542504291302911388}
