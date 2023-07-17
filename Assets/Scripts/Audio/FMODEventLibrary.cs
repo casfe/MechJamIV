@@ -12,9 +12,11 @@ public class FMODEventLibrary : MonoBehaviour
     string mineDroppedPath = "event:/SFX/EnemyEvents/EnemyMineDrop";
 
     FMOD.Studio.EventInstance laserInstance;
+    FMOD.Studio.EventInstance laserStartInstance;
     string laserStartPath = "event:/SFX/EnemyEvents/EnemyLaserStart";
     string laserAttackPath = "event:/SFX/EnemyEvents/EnemyLaserAttack";
     string laserEndPath = "event:/SFX/EnemyEvents/EnemyLaserEnd";
+    string laserLockPath = "event:/SFX/EnemyEvents/EnemyLaserLock";
 
     public void PlayMachineGunStartSound()
     {
@@ -38,8 +40,16 @@ public class FMODEventLibrary : MonoBehaviour
 
     public void PlayLaserStartSound()
     {
-        FMODUtilities.PlayOneShotUsingString(laserStartPath);
+        laserStartInstance = RuntimeManager.CreateInstance(laserStartPath);
+        laserStartInstance.start();
         laserInstance = RuntimeManager.CreateInstance(laserAttackPath);
+    }
+
+    public void PlayLaserLockSound()
+    {
+        FMODUtilities.PlayOneShotUsingString(laserLockPath);
+        laserStartInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        laserStartInstance.release();
     }
 
     public void PlayLaserAttackSound()

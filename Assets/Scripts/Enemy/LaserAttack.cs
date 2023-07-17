@@ -111,6 +111,7 @@ public class LaserAttack : EnemyAttack
             if (laserGunSet.rotation.eulerAngles.y >= 180)
             {
                 state = RotationState.Standby;
+                laserEvents.OnLaserLock?.Invoke();
                 Invoke("FireLaser", standbyTime);
             }
         }
@@ -121,6 +122,7 @@ public class LaserAttack : EnemyAttack
             if (laserGunSet.transform.rotation.eulerAngles.y <= 180)
             {
                 state = RotationState.Standby;
+                laserEvents.OnLaserLock?.Invoke();
                 Invoke("FireLaser", standbyTime);
             }
 
@@ -223,6 +225,7 @@ public class LaserAttack : EnemyAttack
 
             if(hitInfo.transform.tag == "Player")
             {
+                laserEvents.OnLaserPause?.Invoke();
                 GameManager.Instance.EndGame();
             }
         }
@@ -357,6 +360,7 @@ public class LaserEvents
     public UnityEvent OnLaserShoot;
     public UnityEvent OnLaserPause;
     public UnityEvent OnLaserEnd;
+    public UnityEvent OnLaserLock;
 
     [HideInInspector] public bool startSoundPlayed;
     [HideInInspector] public bool shootSoundPlayed;

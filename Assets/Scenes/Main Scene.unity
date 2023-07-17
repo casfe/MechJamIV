@@ -456,6 +456,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
@@ -488,6 +492,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
@@ -499,6 +507,10 @@ PrefabInstance:
       propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 814693482}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
       value: 1
@@ -522,6 +534,14 @@ PrefabInstance:
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: PlayLaserStopSound
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: PlayLaserLockSound
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -552,6 +572,10 @@ PrefabInstance:
       value: FMODEventLibrary, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: FMODEventLibrary, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: FMODEventLibrary, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -565,6 +589,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
