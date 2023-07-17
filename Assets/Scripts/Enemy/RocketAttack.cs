@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class RocketAttack : EnemyAttack
 {
@@ -18,8 +19,7 @@ public class RocketAttack : EnemyAttack
     private GameObject missile1, missile2, missile3;
     private int wavesFired;
 
-    [Header("FMOD Event Paths")]
-    [SerializeField] string rocketFire;
+    public UnityEvent OnRocketFired;
 
     private void OnEnable()
     {
@@ -46,7 +46,8 @@ public class RocketAttack : EnemyAttack
         missile2 = Instantiate(missilePrefab, middleSpawnPoint.position, missilePrefab.transform.rotation);
         missile3 = Instantiate(missilePrefab, rightSpawnPoint.position, missilePrefab.transform.rotation);
         wavesFired++;
-        FMODUtilities.PlayOneShotUsingString(rocketFire);
+
+        OnRocketFired?.Invoke();
 
         if (wavesFired < wavesToFire)
             Invoke("FireWave", timeBetweenWaves);

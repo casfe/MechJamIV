@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MachineGunAttack : EnemyAttack
 {
@@ -19,17 +20,15 @@ public class MachineGunAttack : EnemyAttack
     private Vector3 hitPosition;
     private Vector3 direction;
 
-    [Header("FMOD event paths")]
-    [SerializeField] string machineGunStart;
-    [SerializeField] string machineGunAttack;
-
+    public UnityEvent OnMachineGunAttack;
 
 
     private void OnEnable()
     {
         shotsFired = 0;
         hitPosition = new Vector3();
-        FMODUtilities.PlayOneShotUsingString(machineGunAttack);
+
+        OnMachineGunAttack?.Invoke();
 
         if(Physics.Raycast(firingPoint.position, firingPoint.forward, out RaycastHit hit))
         {

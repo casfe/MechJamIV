@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class LaserAttack : EnemyAttack
 {
@@ -38,6 +39,8 @@ public class LaserAttack : EnemyAttack
     private RotationState state = RotationState.RotateTowardsPlayer;
 
     public enum RotateDirection { Clockwise, AntiClockwise };
+
+    [SerializeField] public LaserEvents laserEvents;
 
     enum RotationState
     {
@@ -122,6 +125,12 @@ public class LaserAttack : EnemyAttack
             }
 
         }
+
+        if (!laserEvents.startSoundPlayed)
+        {
+            laserEvents.OnLaserWindup?.Invoke();
+            laserEvents.startSoundPlayed = true;
+        }
     }
 
     private void RotateToOrigin()
@@ -146,9 +155,14 @@ public class LaserAttack : EnemyAttack
         {
             laserCannon.rotation = Quaternion.identity;
             state = RotationState.Standby;
-            AttackFinished = true;            
+            AttackFinished = true;
         }
 
+        if (!laserEvents.endSoundPlayed)
+        {
+            laserEvents.OnLaserEnd?.Invoke();
+            laserEvents.endSoundPlayed = true;
+        }
     }
 
     private void ReturnToCenter()
@@ -176,6 +190,7 @@ public class LaserAttack : EnemyAttack
             attacksPerformed++;
             if (attacksPerformed >= attackTypes.Length)
             {
+                laserEvents.OnLaserPause?.Invoke();
                 state = RotationState.ReturnToOrigin;
             }
             else
@@ -185,6 +200,10 @@ public class LaserAttack : EnemyAttack
                 state = RotationState.Standby;
 
                 InitializeValues(attacksPerformed);
+
+                laserEvents.shootSoundPlayed = false;
+                laserEvents.OnLaserPause?.Invoke();
+
                 Invoke("FireLaser", standbyTime);
             }
         }
@@ -315,7 +334,13 @@ public class LaserAttack : EnemyAttack
         if (startDirection == RotateDirection.Clockwise)
             state = RotationState.RotateClockwise;
         else
-            state = RotationState.RotateAntiClockwise;        
+            state = RotationState.RotateAntiClockwise;
+
+        if (!laserEvents.shootSoundPlayed)
+        {
+            laserEvents.OnLaserShoot?.Invoke();
+            laserEvents.shootSoundPlayed = true;
+        }
     }
 
     private void OnDrawGizmos()
@@ -323,4 +348,17 @@ public class LaserAttack : EnemyAttack
         Gizmos.color = Color.red;
         Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
     }
+}
+
+[Serializable]
+public class LaserEvents
+{
+    public UnityEvent OnLaserWindup;
+    public UnityEvent OnLaserShoot;
+    public UnityEvent OnLaserPause;
+    public UnityEvent OnLaserEnd;
+
+    [HideInInspector] public bool startSoundPlayed;
+    [HideInInspector] public bool shootSoundPlayed;
+    [HideInInspector] public bool endSoundPlayed;
 }
