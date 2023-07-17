@@ -37,6 +37,10 @@ public class MachineGunAttack : EnemyAttack
             sparks = Instantiate(machineGunSparks, spawnPos, Quaternion.identity);
             hitPosition = sparks.transform.position;
         }
+        else
+        {
+            Debug.LogWarning("Raycast from machine gun did not hit anything");
+        }
     }
 
     private void Update()
@@ -82,7 +86,7 @@ public class MachineGunAttack : EnemyAttack
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawRay(firingPoint.position, direction * 50);
-        //Gizmos.DrawRay(firingPoint.position, firingPoint.forward * 100);
+        //Gizmos.DrawRay(firingPoint.position, direction * 50);
+        Gizmos.DrawRay(firingPoint.position, firingPoint.forward * 100);
     }
 }

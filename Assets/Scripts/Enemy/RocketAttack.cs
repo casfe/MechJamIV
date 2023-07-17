@@ -5,6 +5,8 @@ using UnityEngine;
 public class RocketAttack : EnemyAttack
 {
     public GameObject missilePrefab;
+    public Transform rocketLauncher;
+    [SerializeField] int launcherRotateSpeed = 1;
     [SerializeField] int wavesToFire = 1;
     [SerializeField] float timeBetweenWaves = 1;
 
@@ -22,11 +24,15 @@ public class RocketAttack : EnemyAttack
     private void OnEnable()
     {
         wavesFired = 0;
-        FireWave();
     }
 
     private void Update()
     {
+        if (rocketLauncher.rotation.eulerAngles.y < 180)
+            rocketLauncher.Rotate(0, launcherRotateSpeed * Time.deltaTime, 0);
+        else if (wavesFired < 1)
+            FireWave();
+
         if (wavesFired == wavesToFire)
         {
             if (missile1 == null && missile2 == null && missile3 == null)

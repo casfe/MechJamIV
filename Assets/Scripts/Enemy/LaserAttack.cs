@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
-using FMODUnity;
 
 public class LaserAttack : EnemyAttack
 {
@@ -40,17 +39,6 @@ public class LaserAttack : EnemyAttack
 
     public enum RotateDirection { Clockwise, AntiClockwise };
 
-    [Header("FMOD event paths")]
-    [SerializeField] string laserStart;
-    [SerializeField] string laserEnd;
-    [SerializeField] string laserAttack;
-
-    private FMOD.Studio.EventInstance laserStartInstance;
-    private FMOD.Studio.EventInstance laserMainInstance;
-    bool laserStartPlayed = false;
-    bool laserAttackPlayed = false;
-    bool laserEndPlayed = false;
-
     enum RotationState
     {
         Standby,
@@ -64,11 +52,7 @@ public class LaserAttack : EnemyAttack
     private void OnEnable()
     {
         laserLine = laserGunSet.GetComponent<LineRenderer>();
-        
         InitializeValues(0);
-
-        laserStartInstance = RuntimeManager.CreateInstance(laserStart);
-        laserMainInstance = RuntimeManager.CreateInstance(laserAttack);
     }
 
     private void InitializeValues(int index)
@@ -83,10 +67,6 @@ public class LaserAttack : EnemyAttack
         raiseAngle = attackTypes[index].raiseAngle;
         setLimit = attackTypes[index].setLimit;
         limitAngle = attackTypes[index].limitAngle;
-
-        laserStartPlayed = false;
-        laserAttackPlayed = false;
-        laserEndPlayed = false;
     }
 
     void Update()
@@ -140,12 +120,7 @@ public class LaserAttack : EnemyAttack
                 state = RotationState.Standby;
                 Invoke("FireLaser", standbyTime);
             }
-        }
 
-        if (!laserStartPlayed)
-        {
-            laserStartPlayed = true;
-            FMODUtilities.PlayOneShotUsingString(laserStart);
         }
     }
 
@@ -172,14 +147,6 @@ public class LaserAttack : EnemyAttack
             laserCannon.rotation = Quaternion.identity;
             state = RotationState.Standby;
             AttackFinished = true;            
-        }
-
-        if (!laserEndPlayed)
-        {
-            laserEndPlayed = true;
-            laserMainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
-            laserMainInstance.release();
-            FMODUtilities.PlayOneShotUsingString(laserEnd);
         }
 
     }
@@ -218,9 +185,6 @@ public class LaserAttack : EnemyAttack
                 state = RotationState.Standby;
 
                 InitializeValues(attacksPerformed);
-
-                laserAttackPlayed = false;
-
                 Invoke("FireLaser", standbyTime);
             }
         }
@@ -241,9 +205,11 @@ public class LaserAttack : EnemyAttack
             if(hitInfo.transform.tag == "Player")
             {
                 GameManager.Instance.EndGame();
-                laserMainInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
-                laserMainInstance.release();
             }
+        }
+        else
+        {
+            Debug.Log("Laser raycast not hitting anything");
         }
     }
 
@@ -277,7 +243,6 @@ public class LaserAttack : EnemyAttack
             if (iteration > fireIterations)
             {
                 state = RotationState.ReturnToCenter;
-                laserMainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 laserLine.enabled = false;
             }
             else
@@ -311,7 +276,6 @@ public class LaserAttack : EnemyAttack
             if (iteration > fireIterations)
             {
                 state = RotationState.ReturnToCenter;
-                laserMainInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
                 laserLine.enabled = false;
             }
             else
@@ -351,18 +315,12 @@ public class LaserAttack : EnemyAttack
         if (startDirection == RotateDirection.Clockwise)
             state = RotationState.RotateClockwise;
         else
-            state = RotationState.RotateAntiClockwise;
-
-        if (!laserAttackPlayed)
-        {
-            laserMainInstance.start();
-            laserAttackPlayed = true;
-        }
+            state = RotationState.RotateAntiClockwise;        
     }
 
     private void OnDrawGizmos()
     {
-        //Gizmos.color = Color.red;
-        //Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
     }
 }
