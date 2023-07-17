@@ -18,6 +18,9 @@ public class MineAttack : EnemyAttack
     private int spawnPointNumber = 0;
     private bool descending = false;
 
+    [Header("FMOD Event Paths")]
+    [SerializeField] string mineDrop;
+
     private void OnEnable()
     {
         DropMine();
@@ -49,6 +52,8 @@ public class MineAttack : EnemyAttack
             {
                 Instantiate(minePrefab, spawnPoint.position, Quaternion.identity);
                 minesSpawned++;
+
+                FMODUtilities.PlayOneShotUsingString(mineDrop);
             }
         }
         else if(selectSpawnPointsRandomly)
@@ -61,6 +66,8 @@ public class MineAttack : EnemyAttack
             Instantiate(minePrefab, spawnPoints[randomPick].position, Quaternion.identity);
 
             minesSpawned++;
+
+            FMODUtilities.PlayOneShotUsingString(mineDrop);
         }
         else
         {
@@ -88,6 +95,8 @@ public class MineAttack : EnemyAttack
             }
 
             minesSpawned++;
+
+            FMODUtilities.PlayOneShotUsingString(mineDrop);
         }
     }
 }

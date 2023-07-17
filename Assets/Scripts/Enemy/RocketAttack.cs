@@ -16,6 +16,9 @@ public class RocketAttack : EnemyAttack
     private GameObject missile1, missile2, missile3;
     private int wavesFired;
 
+    [Header("FMOD Event Paths")]
+    [SerializeField] string rocketFire;
+
     private void OnEnable()
     {
         wavesFired = 0;
@@ -37,6 +40,7 @@ public class RocketAttack : EnemyAttack
         missile2 = Instantiate(missilePrefab, middleSpawnPoint.position, missilePrefab.transform.rotation);
         missile3 = Instantiate(missilePrefab, rightSpawnPoint.position, missilePrefab.transform.rotation);
         wavesFired++;
+        FMODUtilities.PlayOneShotUsingString(rocketFire);
 
         if (wavesFired < wavesToFire)
             Invoke("FireWave", timeBetweenWaves);
