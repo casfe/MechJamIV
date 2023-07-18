@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class MineAttack : EnemyAttack
 {
@@ -22,6 +23,8 @@ public class MineAttack : EnemyAttack
     private bool atDropPoint = false;
     private int pointChosen;
 
+    public UnityEvent OnMineDropped;
+
     private void OnEnable()
     {
         pointChosen = PickNextPoint();
@@ -40,6 +43,7 @@ public class MineAttack : EnemyAttack
                     Instantiate(minePrefab, dropPoint.position, Quaternion.identity);
                     minesSpawned++;
                 }
+                OnMineDropped?.Invoke();
             }
         }
         else
@@ -52,6 +56,7 @@ public class MineAttack : EnemyAttack
                     Instantiate(minePrefab, spawnPoint.position, Quaternion.identity);
                     atDropPoint = false;
                     minesSpawned++;
+                    OnMineDropped?.Invoke();
 
                     pointChosen = PickNextPoint();
                 }
