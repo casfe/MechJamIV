@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 4960702362134174378}
   - component: {fileID: 6046211782527104689}
   - component: {fileID: 3319288931905295183}
-  - component: {fileID: 2657838192765326050}
+  - component: {fileID: 4758197563532304353}
+  - component: {fileID: -3220399313092037385}
   m_Layer: 6
   m_Name: Rocket
   m_TagString: Untagged
@@ -34,7 +35,7 @@ Transform:
   m_Children:
   - {fileID: 8356835791588657917}
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
 --- !u!33 &4960702362134174378
 MeshFilter:
@@ -94,7 +95,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 1
---- !u!114 &2657838192765326050
+--- !u!114 &4758197563532304353
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -103,10 +104,44 @@ MonoBehaviour:
   m_GameObject: {fileID: 6335767985924286967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 63941d2b4597bfc4aaff3acb6c1b27d7, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a6610d2e704f1648819acc8d7460285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: -50
+  CollisionTag: 
+  EventReference:
+    Guid:
+      Data1: 2124888547
+      Data2: 1300915966
+      Data3: -1196910151
+      Data4: 2085325032
+    Path: event:/SFX/EnemyEvents/EnemyRocketLoop
+  Event: 
+  PlayEvent: 1
+  StopEvent: 2
+  AllowFadeout: 1
+  TriggerOnce: 0
+  Preload: 0
+  AllowNonRigidbodyDoppler: 0
+  Params: []
+  OverrideAttenuation: 0
+  OverrideMinDistance: 1
+  OverrideMaxDistance: 8
+--- !u!114 &-3220399313092037385
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6335767985924286967}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53723cac3833f6a49aa3827670a71906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  forwardDirection: {x: 0, y: 0, z: -1}
+  verticalDirection: {x: 0, y: -1, z: 0}
+  forwardVelocity: 50
+  verticalVelocity: 2
 --- !u!1001 &8391271108385762582
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -174,19 +209,23 @@ PrefabInstance:
     - target: {fileID: -7511558181221131132, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: a42d71d0dde6c7e45ad193d10ea35860, type: 2}
+      objectReference: {fileID: 2100000, guid: 949637f5615a89a4eb76bedef16c4331, type: 2}
     - target: {fileID: -7511558181221131132, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
       propertyPath: m_Materials.Array.data[1]
       value: 
-      objectReference: {fileID: 2100000, guid: a42d71d0dde6c7e45ad193d10ea35860, type: 2}
+      objectReference: {fileID: 2100000, guid: 304a18a8b7ea6af418c97533c74eb815, type: 2}
+    - target: {fileID: -7511558181221131132, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
+      propertyPath: m_Materials.Array.data[2]
+      value: 
+      objectReference: {fileID: 2100000, guid: a4b0870e1e8f55645863423768c24728, type: 2}
     - target: {fileID: -7511558181221131132, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
       propertyPath: m_Materials.Array.data[3]
       value: 
-      objectReference: {fileID: 2100000, guid: a42d71d0dde6c7e45ad193d10ea35860, type: 2}
+      objectReference: {fileID: 2100000, guid: 468e7af18cc054846a8fb03d2739dffb, type: 2}
     - target: {fileID: -7511558181221131132, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
       propertyPath: m_Materials.Array.data[4]
       value: 
-      objectReference: {fileID: 2100000, guid: a42d71d0dde6c7e45ad193d10ea35860, type: 2}
+      objectReference: {fileID: 2100000, guid: 163d8595e24565845a784bca0cd1be67, type: 2}
     - target: {fileID: 919132149155446097, guid: 48c7a990436bc7c4aa48200f1863d079, type: 3}
       propertyPath: m_Name
       value: Rocket_low
