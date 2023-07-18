@@ -10,15 +10,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] int startingWeaponGauge = 0;
     [SerializeField] int gaugeIncreaseFromPickup = 20;
     [SerializeField] GameObject bulletPrefab;
-    [SerializeField] Transform bulletSpawnPoint;    
-
-    [Header("Events")]
-    public UnityEvent OnCollideWithObstacle;
+    [SerializeField] Transform bulletSpawnPoint;   
 
     [Header("FMOD Event paths")]
     [SerializeField] string weaponShoot;
     [SerializeField] string weaponPickup;
     [SerializeField] string weaponReady;
+
+    [Header("Events")]
+    public UnityEvent onCollisionWithObstacle;
+    public UnityEvent onShootWeapon;
+    public UnityEvent onPickupWeapon;
+    public UnityEvent onWeaponReady;
 
     Animator animator;
     GameManager gameManager;
@@ -45,7 +48,9 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 6) // hazard layer
         {
-            OnCollideWithObstacle.Invoke();
+            GameObject.Destroy(collision.gameObject);
+
+            onCollisionWithObstacle.Invoke();
             animator.SetTrigger("Die");
             GetComponent<PlayerMovement>().enabled = false;
             this.enabled = false;
@@ -61,11 +66,14 @@ public class PlayerController : MonoBehaviour
             if(weaponGauge > maxWeaponGauage) 
             {
                 weaponGauge = maxWeaponGauage;
+                onWeaponReady.Invoke();
+
                 FMODUtilities.PlayOneShotUsingString(weaponReady);
             }
             else
             {
                 FMODUtilities.PlayOneShotUsingString(weaponPickup);
+                onPickupWeapon.Invoke();
             }
 
             gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
@@ -85,6 +93,8 @@ public class PlayerController : MonoBehaviour
             gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
 
             Instantiate(bulletPrefab, bulletSpawnPoint.position, bulletPrefab.transform.rotation);
+
+            onShootWeapon.Invoke();
             FMODUtilities.PlayOneShotUsingString(weaponShoot);
         }
     }

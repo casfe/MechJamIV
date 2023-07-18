@@ -127,14 +127,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 361872472538320443}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0.000051116942, y: -12.505753, z: -1.0364312}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.000051116942, y: 10.531204, z: -0.0021247864}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3039593782824554784}
   - {fileID: 1176873890880696305}
-  m_Father: {fileID: 6636559549772281920}
+  m_Father: {fileID: 8167500803311185505}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &446768796621729376
@@ -904,7 +904,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 5212892148936893768}
   - {fileID: 5275446825265281144}
   - {fileID: 8166703307373173471}
   - {fileID: 383816844608150764}
@@ -1939,6 +1938,37 @@ Transform:
   - {fileID: 2976438300788778147}
   - {fileID: 7190141010727977341}
   m_Father: {fileID: 6225091432239857222}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &3655636086486547105
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1966219098559149689}
+  m_Layer: 0
+  m_Name: rocket spawnpoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1966219098559149689
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3655636086486547105}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 8.36, z: 11.28}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8798921606739617120}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3796886946166456191
@@ -4338,15 +4368,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fcd52d1fb877af048855af47f8b11e56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  missilePrefab: {fileID: 6335767985924286967, guid: 9c8cedbc7ed98fc46b26837b4085a531, type: 3}
+  rocketPrefab: {fileID: 6335767985924286967, guid: 9c8cedbc7ed98fc46b26837b4085a531, type: 3}
   rocketLauncher: {fileID: 8083248917941245956}
+  spawnPoint: {fileID: 1966219098559149689}
   launcherRotateSpeed: 50
   wavesToFire: 1
   timeBetweenWaves: 1
-  leftSpawnPoint: {fileID: 0}
-  middleSpawnPoint: {fileID: 0}
-  rightSpawnPoint: {fileID: 0}
-  rocketFire: event:/SFX/EnemyEvents/EnemyRocketFire
+  leftLanePoint: {fileID: 0}
+  middleLanePoint: {fileID: 0}
+  rightLanePoint: {fileID: 0}
+  OnRocketFired:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+        m_MethodName: PlayRocketFireSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &6967674607890790676
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4359,17 +4404,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f77e54909523664492e9e56b50fa360, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  sidewaysMovementSpeed: 10
+  selectLanesRandomly: 0
+  lanePositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
   minePrefab: {fileID: 1317905405004388176, guid: 9bf8cd7741a9b994fac8b330bfd69557, type: 3}
   minesToSpawn: 15
   timeBetweenMines: 1
   selectSpawnPointsRandomly: 0
   dropMinesSimulatenously: 0
   spawnPoint: {fileID: 1284859538438181599}
-  dropPoints:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  sidewaysMovement: 5
+  OnMineDropped:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+        m_MethodName: PlayMineDroppedSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &3205215176206568635
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4382,15 +4443,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdd5fe42efacd84eb7c5d2d0f454c46, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  machineGun: {fileID: 6636559549772281920}
+  sidewaysMovementSpeed: 10
+  selectLanesRandomly: 0
+  lanePositions:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  machineGun: {fileID: 5212892148936893768}
   firingPoint: {fileID: 4556183091269169641}
   machineGunRotateSpeed: 1
+  laneIterations: 3
   machineGunSparks: {fileID: 851176845771797232, guid: 8362d81036727084f81235c4c206b951, type: 3}
-  totalShots: 15
-  distanceBetweenSparks: 5
-  timeBetweenSparks: 0.1
-  machineGunStart: 
-  machineGunAttack: event:/SFX/EnemyEvents/EnemyGunAttack
+  shotsPerIteration: 6
+  distanceBetweenShots: 10
+  timeBetweenSparks: 0.2
+  OnMachineGunAttack:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+        m_MethodName: PlayMachineGunAttackSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &638860665483442550
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4411,6 +4492,85 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a753a9e8b29017f4393a4f91de6ea86f, type: 2}
   - {fileID: 11400000, guid: 4da99f5640f834c48b89f61f7ae53165, type: 2}
   - {fileID: 11400000, guid: 28be482fc836b504193a4914477b4864, type: 2}
+  laserEvents:
+    OnLaserWindup:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+          m_MethodName: PlayLaserStartSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnLaserShoot:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+          m_MethodName: PlayLaserAttackSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnLaserPause:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+          m_MethodName: PauseLaserAttackSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnLaserEnd:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+          m_MethodName: PlayLaserStopSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    OnLaserLock:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 0}
+          m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+          m_MethodName: PlayLaserLockSound
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+    startSoundPlayed: 0
+    shootSoundPlayed: 0
+    endSoundPlayed: 0
 --- !u!1 &8225817812908018610
 GameObject:
   m_ObjectHideFlags: 0
@@ -4522,7 +4682,8 @@ Transform:
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1966219098559149689}
   m_Father: {fileID: 1514961795700379344}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4769,6 +4930,7 @@ Transform:
   m_Children:
   - {fileID: 4556183091269169641}
   - {fileID: 6636559549772281920}
+  - {fileID: 5212892148936893768}
   - {fileID: 7340654711513959569}
   - {fileID: 5542504291302911388}
   - {fileID: 8313155425541235890}
@@ -4917,7 +5079,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8891980043895603902}
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
   m_LocalPosition: {x: -0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -4926,7 +5088,7 @@ Transform:
   - {fileID: 1514961795700379344}
   m_Father: {fileID: 7336983262645192096}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
 --- !u!1 &8901082751526768987
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
 {
@@ -100,9 +101,4 @@ public class EnemyController : MonoBehaviour
         }
     }
 
-}
-
-public abstract class EnemyAttack : MonoBehaviour
-{
-    public bool AttackFinished { get; protected set; } = false;
 }

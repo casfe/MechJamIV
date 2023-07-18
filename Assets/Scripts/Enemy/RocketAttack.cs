@@ -1,22 +1,24 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Net.Sockets;
 using UnityEngine;
 using UnityEngine.Events;
 
 public class RocketAttack : EnemyAttack
 {
-    public GameObject missilePrefab;
+    public GameObject rocketPrefab;
     public Transform rocketLauncher;
+    public Transform spawnPoint;
     [SerializeField] int launcherRotateSpeed = 1;
     [SerializeField] int wavesToFire = 1;
     [SerializeField] float timeBetweenWaves = 1;
 
-    [Header("Spawn Positions")]
-    [SerializeField] Transform leftSpawnPoint;
-    [SerializeField] Transform middleSpawnPoint;
-    [SerializeField] Transform rightSpawnPoint;
+    [Header("Lane Positions")]
+    [SerializeField] Transform leftLanePoint;
+    [SerializeField] Transform middleLanePoint;
+    [SerializeField] Transform rightLanePoint;
 
-    private GameObject missile1, missile2, missile3;
+    private GameObject rocket1, rocket2, rocket3;
     private int wavesFired;
 
     public UnityEvent OnRocketFired;
@@ -35,16 +37,34 @@ public class RocketAttack : EnemyAttack
 
         if (wavesFired == wavesToFire)
         {
-            if (missile1 == null && missile2 == null && missile3 == null)
+            if (rocket1 == null && rocket2 == null && rocket3 == null)
                 AttackFinished = true;
         }
     }
 
     private void FireWave()
     {
-        missile1 = Instantiate(missilePrefab, leftSpawnPoint.position, missilePrefab.transform.rotation);
-        missile2 = Instantiate(missilePrefab, middleSpawnPoint.position, missilePrefab.transform.rotation);
-        missile3 = Instantiate(missilePrefab, rightSpawnPoint.position, missilePrefab.transform.rotation);
+        // fire first rocket
+        rocket1 = Instantiate(rocketPrefab, spawnPoint.position, rocketPrefab.transform.rotation);
+        rocket1.GetComponent<Rocket>().LanePosition = leftLanePoint;
+        Vector3 direction = (leftLanePoint.position - spawnPoint.position).normalized;
+        direction.y = 0;
+        rocket1.GetComponent<Rocket>().InitialDirection = direction;        
+
+        // fire second rocket
+        rocket2 = Instantiate(rocketPrefab, spawnPoint.position, rocketPrefab.transform.rotation);
+        rocket2.GetComponent<Rocket>().LanePosition = middleLanePoint;
+        direction = (middleLanePoint.position - spawnPoint.position).normalized;
+        direction.y = 0;
+        rocket2.GetComponent<Rocket>().InitialDirection = direction;  
+
+        // fire third rocket
+        rocket3 = Instantiate(rocketPrefab, spawnPoint.position, rocketPrefab.transform.rotation);
+        rocket3.GetComponent<Rocket>().LanePosition = rightLanePoint;
+        direction = (rightLanePoint.position - spawnPoint.position).normalized;
+        direction.y = 0;
+        rocket3.GetComponent<Rocket>().InitialDirection = direction;      
+
         wavesFired++;
 
         OnRocketFired?.Invoke();

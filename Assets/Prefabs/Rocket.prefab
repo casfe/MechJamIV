@@ -9,11 +9,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7379701962194761610}
-  - component: {fileID: 4960702362134174378}
   - component: {fileID: 6046211782527104689}
   - component: {fileID: 3319288931905295183}
   - component: {fileID: 4758197563532304353}
-  - component: {fileID: -3220399313092037385}
+  - component: {fileID: -6995690357088935893}
   m_Layer: 6
   m_Name: Rocket
   m_TagString: Untagged
@@ -37,14 +36,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!33 &4960702362134174378
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6335767985924286967}
-  m_Mesh: {fileID: 10208, guid: 0000000000000000e000000000000000, type: 0}
 --- !u!136 &6046211782527104689
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -60,14 +51,14 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.73
-  m_Height: 3.387921
+  m_Radius: 0.4
+  m_Height: 2.1
   m_Direction: 1
-  m_Center: {x: 0.0053327084, y: 0.12875748, z: 0.033123016}
+  m_Center: {x: 0.0053327084, y: 0.64, z: 0.033123016}
 --- !u!54 &3319288931905295183
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -126,7 +117,7 @@ MonoBehaviour:
   OverrideAttenuation: 0
   OverrideMinDistance: 1
   OverrideMaxDistance: 8
---- !u!114 &-3220399313092037385
+--- !u!114 &-6995690357088935893
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -135,13 +126,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 6335767985924286967}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53723cac3833f6a49aa3827670a71906, type: 3}
+  m_Script: {fileID: 11500000, guid: 3b8cabf360f3b884683d7570c120c711, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  forwardDirection: {x: 0, y: 0, z: -1}
-  verticalDirection: {x: 0, y: -1, z: 0}
-  forwardVelocity: 50
-  verticalVelocity: 2
+  travelSpeed: 50
+  speedToLanePosition: 10
+  downwardSpeed: 2
+  standbyTime: 0
 --- !u!1001 &8391271108385762582
 PrefabInstance:
   m_ObjectHideFlags: 0

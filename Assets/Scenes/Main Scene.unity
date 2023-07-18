@@ -412,14 +412,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: de466bad851de154885a23c411afb1f2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  machineGunStartPath: 
-  machineGunAttackPath: event:/SFX/EnemyEvents/EnemyGunAttack
-  rocketFirePath: event:/SFX/EnemyEvents/EnemyRocketFire
-  mineDroppedPath: event:/SFX/EnemyEvents/EnemyMineDrop
-  laserStartPath: event:/SFX/EnemyEvents/EnemyLaserStart
-  laserAttackPath: event:/SFX/EnemyEvents/EnemyLaserAttack
-  laserEndPath: event:/SFX/EnemyEvents/EnemyLaserEnd
-  laserLockPath: event:/SFX/EnemyEvents/EnemyLaserLock
 --- !u!4 &814693483
 Transform:
   m_ObjectHideFlags: 0
@@ -444,85 +436,13 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserPause.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserShoot.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserWindup.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -532,157 +452,49 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 814693482}
     - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayLaserStopSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayLaserLockSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PauseLaserAttackSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayLaserAttackSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayLaserStartSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserEnd.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserLock.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserPause.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserShoot.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 638860665483442550, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: laserEvents.OnLaserWindup.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+    - target: {fileID: 1966219098559149689, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 8.4
       objectReference: {fileID: 0}
     - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: lanePositions.Array.data[0]
+      value: 
+      objectReference: {fileID: 1046868511}
     - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
+      propertyPath: lanePositions.Array.data[1]
+      value: 
+      objectReference: {fileID: 32826440}
+    - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: lanePositions.Array.data[2]
+      value: 
+      objectReference: {fileID: 326571096}
     - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
-    - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayMachineGunAttackSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 3205215176206568635, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMachineGunAttack.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
+    - target: {fileID: 3655636086486547105, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: -5938655980376293919, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: dropPoints.Array.data[0]
+      propertyPath: lanePositions.Array.data[0]
       value: 
       objectReference: {fileID: 1046868511}
     - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: dropPoints.Array.data[1]
+      propertyPath: lanePositions.Array.data[1]
       value: 
       objectReference: {fileID: 32826440}
     - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: dropPoints.Array.data[2]
+      propertyPath: lanePositions.Array.data[2]
       value: 
       objectReference: {fileID: 326571096}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayMineDroppedSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 6967674607890790676, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnMineDropped.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     - target: {fileID: 7336983262645192096, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_RootOrder
       value: 6
@@ -727,74 +539,26 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8083248917941245956, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8083248917941245956, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8083248917941245956, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8083248917941245956, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8083248917941245956, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 180
-      objectReference: {fileID: 0}
     - target: {fileID: 8156858637238461236, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_Name
       value: Spider Mech
       objectReference: {fileID: 0}
     - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: m_Enabled
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: leftSpawnPoint
+      propertyPath: leftLanePoint
       value: 
       objectReference: {fileID: 185123189}
     - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: rightSpawnPoint
+      propertyPath: rightLanePoint
       value: 
       objectReference: {fileID: 722237083}
     - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: middleSpawnPoint
+      propertyPath: middleLanePoint
       value: 
       objectReference: {fileID: 954174097}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 814693482}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: PlayRocketFireSound
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: FMODEventLibrary, Assembly-CSharp
-      objectReference: {fileID: 0}
-    - target: {fileID: 8752756477890098155, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
-      propertyPath: OnRocketFired.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1309,7 +1073,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2022259462533926637, guid: 934cd57c7d10c8249b61402d5b1ae058, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7538988878792804778, guid: 934cd57c7d10c8249b61402d5b1ae058, type: 3}
       propertyPath: startingWeaponGauge
@@ -1483,7 +1247,19 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 373014333103643132, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.67
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 373014333103643132, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1399994
+      objectReference: {fileID: 0}
+    - target: {fileID: 683531230778820036, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1106157705400706697, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1256627759531394663, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_RootOrder
@@ -1499,7 +1275,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1256627759531394663, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 53.79
+      value: 32.69
       objectReference: {fileID: 0}
     - target: {fileID: 1256627759531394663, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1529,10 +1305,62 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1742697214667075562, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742697214667075562, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742697214667075562, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.z
+      value: 2.501192
+      objectReference: {fileID: 0}
+    - target: {fileID: 1742697214667075562, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Center.z
+      value: -0.74940395
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871454183883829227, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871454183883829227, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871454183883829227, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.z
+      value: 2.800953
+      objectReference: {fileID: 0}
+    - target: {fileID: 1871454183883829227, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Center.z
+      value: -0.59952354
+      objectReference: {fileID: 0}
+    - target: {fileID: 2103801398910961564, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.14
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336212115760132606, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.x
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336212115760132606, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.y
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336212115760132606, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Size.z
+      value: 2.5868397
+      objectReference: {fileID: 0}
+    - target: {fileID: 2336212115760132606, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Center.z
+      value: -0.70658016
+      objectReference: {fileID: 0}
     - target: {fileID: 2824434831380190802, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+      objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 2824434831380190802, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Name
       value: Rocket Spawner Right
@@ -1540,26 +1368,38 @@ PrefabInstance:
     - target: {fileID: 3430901667322815833, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+      objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 3430901667322815833, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Name
       value: Rocket Spawner Left
       objectReference: {fileID: 0}
     - target: {fileID: 4246292949406704210, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.67
+      value: -6
+      objectReference: {fileID: 0}
+    - target: {fileID: 4246292949406704210, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: -2.1399994
+      objectReference: {fileID: 0}
+    - target: {fileID: 5557546357710394103, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Enabled
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6811233171981584902, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Icon
       value: 
-      objectReference: {fileID: 5132851093641282708, guid: 0000000000000000d000000000000000, type: 0}
+      objectReference: {fileID: 7866945982896999795, guid: 0000000000000000d000000000000000, type: 0}
     - target: {fileID: 6811233171981584902, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Name
       value: Rocket Spawner Center
       objectReference: {fileID: 0}
     - target: {fileID: 7960878828804244960, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+      propertyPath: m_Icon
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 7960878828804244960, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
       propertyPath: m_Name
-      value: Rocker Spawners
+      value: Rocker Lane Positions
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

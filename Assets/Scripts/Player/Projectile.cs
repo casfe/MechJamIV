@@ -4,20 +4,19 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] float velocity = 100;
+    [SerializeField] Vector3 forwardDirection = Vector3.forward;
+    [SerializeField] Vector3 verticalDirection = Vector3.zero;
+
+
+    [SerializeField] float forwardVelocity = 100;
+    [SerializeField] float verticalVelocity = 10;
 
     Rigidbody body;
 
-    // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        body.velocity = Vector3.forward * velocity;
+        body.velocity = new Vector3(0, verticalDirection.y * verticalVelocity, forwardDirection.z * forwardVelocity);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }
