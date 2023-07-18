@@ -38,7 +38,7 @@ public class CityBuilderRoad : MonoBehaviour
 
     public void SpawnNew()
     {
-        GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z - spawnOffset), Quaternion.identity);
+        GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z + spawnOffset), Quaternion.identity);
         lastRoad = newRoad;
     }
 
