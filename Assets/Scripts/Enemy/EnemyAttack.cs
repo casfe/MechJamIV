@@ -4,7 +4,12 @@ using UnityEngine;
 
 public abstract class EnemyAttack : MonoBehaviour
 {
-    public bool AttackFinished { get; protected set; } = false;
+    public bool AttackFinished { get; protected set; }
+
+    protected virtual void OnEnable()
+    {
+        AttackFinished = false;
+    }
 }
 
 public class LaneSwitchAttack : EnemyAttack

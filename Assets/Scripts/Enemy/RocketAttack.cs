@@ -23,8 +23,9 @@ public class RocketAttack : EnemyAttack
 
     public UnityEvent OnRocketFired;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
         wavesFired = 0;
     }
 

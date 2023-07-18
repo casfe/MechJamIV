@@ -52,10 +52,18 @@ public class LaserAttack : EnemyAttack
         ReturnToOrigin
     }
 
-    private void OnEnable()
-    {
+    protected override void OnEnable()
+    {        
+        base.OnEnable();
         laserLine = laserGunSet.GetComponent<LineRenderer>();
+        attacksPerformed = 0;
+        iteration = 0;
+
         InitializeValues(0);
+
+        laserGunSet.localRotation = Quaternion.identity;
+        laserCannon.localRotation = Quaternion.Euler(0, -20.716f, 0);
+        state = RotationState.RotateTowardsPlayer;
     }
 
     private void InitializeValues(int index)

@@ -20,8 +20,11 @@ public class MineAttack : LaneSwitchAttack
 
     public UnityEvent OnMineDropped;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+        timeSinceLastMine = 0;
+        minesSpawned = 0;
         pointChosen = PickNextPoint();
     }
 
@@ -59,7 +62,6 @@ public class MineAttack : LaneSwitchAttack
                 if (minesSpawned >= minesToSpawn)
                 {
                     AttackFinished = true;
-                    this.enabled = false;
                 }
             }
             else

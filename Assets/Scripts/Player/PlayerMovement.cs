@@ -28,7 +28,6 @@ public class PlayerMovement : MonoBehaviour
     float side = 1;
 
     private Vector3 origin;
-    private bool falling = false;
 
     private bool leftPressed, rightPressed, upPressed, downPressed;
 
@@ -76,14 +75,12 @@ public class PlayerMovement : MonoBehaviour
 
         // fall if in air
         if (!isGrounded)
-        {
-            falling = true;
+        {            
             controller.Move(Vector3.down * fallSpeed * Time.deltaTime);
 
             if (isGrounded)
             {
-                Jumping = false;
-                falling = false;
+                Jumping = false;                
             }
         }
 
@@ -191,7 +188,6 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             Jumping = false;
-            falling = true;
         }
     }
 

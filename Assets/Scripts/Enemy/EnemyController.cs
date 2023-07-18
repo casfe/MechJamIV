@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -10,15 +11,17 @@ public class EnemyController : MonoBehaviour
     int maxHealth = 100;
     [Tooltip("The amount of damage to take when hit my the player's weapon")]
     [SerializeField] int damagePerBlast = 10;
-    [SerializeField]
-    float initialTimeBetweenAttacks = 5.0f;
+    [SerializeField] float initialTimeBetweenAttacks = 5.0f;
+    [Tooltip("Used when the mech returns to the center after completing an attack")]
+    [SerializeField] float sidewaysWalkSpeed = 10;
+    [SerializeField] bool selectAttacksRandomly = true;
     
-    
-    private List<EnemyAttack> enemyAttackList = new List<EnemyAttack>();
+    private EnemyAttack[] enemyAttackList = new EnemyAttack[4];
 
     private int health;
     private float timeBetweenAttacks;
     private float timeSinceLastAttack;
+    private bool returningToCenter = false;
 
     private EnemyAttack currentAttack = null;
     private EnemyAttack[] attackSequence;
@@ -26,51 +29,71 @@ public class EnemyController : MonoBehaviour
 
     GameManager gameManager;
 
-    // Start is called before the first frame update
     void Start()
     {
         health = (int)maxHealth;
         timeBetweenAttacks = initialTimeBetweenAttacks;
 
-        enemyAttackList.Add(GetComponent<RocketAttack>());
+        enemyAttackList[0] = GetComponent<MineAttack>();
+        enemyAttackList[1] = GetComponent<RocketAttack>();
+        enemyAttackList[2] = GetComponent<MachineGunAttack>();
+        enemyAttackList[3] = GetComponent<LaserAttack>();
+        
         gameManager = GameManager.Instance;
+
+        if (selectAttacksRandomly)
+            CreateAttackSequence();
+        else
+            attackSequence = enemyAttackList;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        /*
-        if(currentAttack == null)
+        if(returningToCenter)
+        {
+            ReturnToCenter();
+        }
+        else if (currentAttack == null)
+        {
             timeSinceLastAttack += Time.deltaTime;
+
+            if (timeSinceLastAttack >= timeBetweenAttacks)
+            {
+                currentAttack = attackSequence[attackNumber];
+                currentAttack.enabled = true;
+            }
+
+        }
         else if (currentAttack.AttackFinished)
         {
             currentAttack.enabled = false;
+            returningToCenter = true;
+            timeSinceLastAttack = 0;
+            currentAttack = null;
 
-            if(attackNumber < attackSequence.Length -1)
+            if (attackNumber < attackSequence.Length - 1)
             {
-                attackNumber++;                
+                attackNumber++;
             }
             else
             {
                 attackNumber = 0;
-                CreateAttackSequence();
+
+                if (selectAttacksRandomly)
+                    CreateAttackSequence();
+                else
+                    attackSequence = enemyAttackList;
+                
             }
-
-            timeSinceLastAttack = 0;
-            currentAttack = null;
-        }
-
-        if (timeSinceLastAttack >= timeBetweenAttacks)
-        {
-            attackSequence[attackNumber].enabled = true;
-        }*/
-
+            
+        }        
 
     }
 
     private void CreateAttackSequence()
     {
-        List<EnemyAttack> attacksAvailable = enemyAttackList;
+        List<EnemyAttack> attacksAvailable = enemyAttackList.ToList<EnemyAttack>();
+        attackSequence = new EnemyAttack[4];
 
         for (int i=0; i < 4; i++)
         {
@@ -78,6 +101,34 @@ public class EnemyController : MonoBehaviour
             attackSequence[i] = attacksAvailable[randomPick];
 
             attacksAvailable.RemoveAt(randomPick);
+        }
+    }
+
+    private void ReturnToCenter()
+    {
+        if(transform.position.x > 0)
+        {
+            transform.Translate(Vector3.left * sidewaysWalkSpeed * Time.deltaTime);
+
+            if(transform.position.x <= 0)
+            {
+                transform.position.Set(0, transform.position.x, transform.position.y);
+                returningToCenter = false;
+            }
+        }
+        else if(transform.position.x < 0)
+        {
+            transform.Translate(Vector3.right * sidewaysWalkSpeed * Time.deltaTime);
+
+            if (transform.position.x >= 0)
+            {
+                transform.position.Set(0, transform.position.x, transform.position.y);
+                returningToCenter = false;
+            }
+        }
+        else
+        {
+            returningToCenter = false;
         }
     }
 

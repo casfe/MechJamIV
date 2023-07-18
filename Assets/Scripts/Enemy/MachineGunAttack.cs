@@ -26,9 +26,14 @@ public class MachineGunAttack : LaneSwitchAttack
 
     public UnityEvent OnMachineGunAttack;
 
-    private void OnEnable()
+    protected override void OnEnable()
     {
+        base.OnEnable();
+
+        sparkTimer = 0;
         shotsFired = 0;
+        iteration = 0;
+
         hitPosition = new Vector3();
         
         lanePicked = PickNextPoint();        
@@ -75,8 +80,7 @@ public class MachineGunAttack : LaneSwitchAttack
 
                 if (iteration == laneIterations)
                 {
-                    AttackFinished = true;
-                    this.enabled = false;
+                    AttackFinished = true;                    
                 }
                 else
                 {

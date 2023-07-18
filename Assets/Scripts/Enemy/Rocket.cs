@@ -44,12 +44,6 @@ public class Rocket : MonoBehaviour
                 rb.velocity = Vector3.zero;
                 lanePositionReached = true;
             }
-            /*
-            if (transform.position.x <= LanePosition.z)
-            {
-                rb.velocity = Vector3.zero;
-                lanePositionReached = true;
-            }
         }*/
 
         if (lanePositionReached && !movingTowardsPlayer)
@@ -70,9 +64,12 @@ public class Rocket : MonoBehaviour
     {
         if(other.transform == LanePosition)
         {
-            Debug.Log("Entered Lane Position");
             rb.velocity = Vector3.zero;
             lanePositionReached = true;
+        }
+        else if(other.tag == "Boundary")
+        {
+            GameObject.Destroy(gameObject);
         }
                 
     }
