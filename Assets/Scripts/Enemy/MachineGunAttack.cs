@@ -25,6 +25,7 @@ public class MachineGunAttack : LaneSwitchAttack
     private bool initialShotFired = false;
 
     public UnityEvent OnMachineGunAttack;
+    public UnityEvent OnPlayerHit;
 
     protected override void OnEnable()
     {
@@ -117,7 +118,7 @@ public class MachineGunAttack : LaneSwitchAttack
 
             if(hit.transform.tag == "Player")
             {
-                GameManager.Instance.EndGame();
+                OnPlayerHit?.Invoke();
             }
         }
 

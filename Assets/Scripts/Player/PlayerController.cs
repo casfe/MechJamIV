@@ -22,6 +22,7 @@ public class PlayerController : MonoBehaviour
     public UnityEvent onShootWeapon;
     public UnityEvent onPickupWeapon;
     public UnityEvent onWeaponReady;
+    public UnityEvent OnExplosiveTouched;
 
     Animator animator;
     GameManager gameManager;
@@ -50,10 +51,12 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Destroy(collision.gameObject);
 
-            onCollisionWithObstacle.Invoke();
-            animator.SetTrigger("Die");
-            GetComponent<PlayerMovement>().enabled = false;
-            this.enabled = false;
+            Die();
+
+            if (collision.gameObject.name.Contains("Mine"))
+            {
+                OnExplosiveTouched?.Invoke();
+            }
         }
     }
 
@@ -63,10 +66,12 @@ public class PlayerController : MonoBehaviour
         {
             GameObject.Destroy(other.gameObject);
 
-            onCollisionWithObstacle.Invoke();
-            animator.SetTrigger("Die");
-            GetComponent<PlayerMovement>().enabled = false;
-            this.enabled = false;
+            Die();
+
+            if(other.name.Contains("Rocket"))
+            {
+                OnExplosiveTouched?.Invoke();
+            }
         }
         else if (other.gameObject.tag == "Weapon")
         {
@@ -88,6 +93,14 @@ public class PlayerController : MonoBehaviour
 
             gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);            
         }
+    }
+
+    public void Die()
+    {
+        onCollisionWithObstacle.Invoke();
+        animator.SetTrigger("Die");
+        GetComponent<PlayerMovement>().enabled = false;
+        this.enabled = false;
     }
 
     private void FireWeapon()

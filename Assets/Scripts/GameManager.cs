@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
@@ -24,6 +25,12 @@ public class GameManager : MonoBehaviour
     private float maxHealthbarWidth;
 
     private bool gamePaused = false;
+
+    [Header("FMOD Events")]
+    public UnityEvent OnGameWon;
+    public UnityEvent OnGameLost;
+    public UnityEvent OnGamePaused;
+    public UnityEvent OnGameResumed;
 
     private void Awake()
     {
@@ -74,19 +81,34 @@ public class GameManager : MonoBehaviour
         menuButtons.SetActive(gamePaused);
         resumeButton.gameObject.SetActive(gamePaused);
 
-        Time.timeScale = gamePaused ? 0: 1;        
+        Time.timeScale = gamePaused ? 0: 1;
+
+        if (gamePaused)
+        {
+            OnGamePaused?.Invoke();
+        }
+        else
+        {
+            OnGameResumed?.Invoke();
+        }
     }
 
     public void EndGame()
     {
         gameOverMessage.SetActive(true);
         menuButtons.SetActive(true);
+
+        OnGameLost?.Invoke();
+
         Time.timeScale = 0;        
     }
 
     public void WinGame()
     {
         winMessage.SetActive(true);
+
+        OnGameWon?.Invoke();
+
         Time.timeScale = 0;
     }
 

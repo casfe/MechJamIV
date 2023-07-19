@@ -42,6 +42,9 @@ public class LaserAttack : EnemyAttack
 
     [SerializeField] public LaserEvents laserEvents;
 
+    public UnityEvent OnPlayerHit;
+    bool playerHit = false;
+
     enum RotationState
     {
         Standby,
@@ -233,8 +236,11 @@ public class LaserAttack : EnemyAttack
 
             if(hitInfo.transform.tag == "Player")
             {
+                if (playerHit) return;
+
                 laserEvents.OnLaserPause?.Invoke();
-                GameManager.Instance.EndGame();
+                OnPlayerHit?.Invoke();
+                playerHit = true;
             }
         }
         else

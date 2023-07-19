@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 using Random = UnityEngine.Random;
 
 public class EnemyController : MonoBehaviour
@@ -28,6 +29,9 @@ public class EnemyController : MonoBehaviour
     private uint attackNumber;
 
     GameManager gameManager;
+
+    [Header("FMOD Events")]
+    public UnityEvent<float> OnDamageTaken;
 
     void Start()
     {
@@ -137,6 +141,8 @@ public class EnemyController : MonoBehaviour
         health -= amount;
 
         gameManager.SetEnemyHealthBar(health, maxHealth);
+
+        OnDamageTaken?.Invoke((float)health);
 
         if (health <= 0)
             gameManager.WinGame();
