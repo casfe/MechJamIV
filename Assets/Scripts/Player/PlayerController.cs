@@ -59,8 +59,18 @@ public class PlayerController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.tag == "Weapon")
+        if (other.gameObject.layer == 6) // hazard layer
         {
+            GameObject.Destroy(other.gameObject);
+
+            onCollisionWithObstacle.Invoke();
+            animator.SetTrigger("Die");
+            GetComponent<PlayerMovement>().enabled = false;
+            this.enabled = false;
+        }
+        else if (other.gameObject.tag == "Weapon")
+        {
+            GameObject.Destroy(other.gameObject);
             weaponGauge += gaugeIncreaseFromPickup;
 
             if(weaponGauge > maxWeaponGauage) 
@@ -76,9 +86,7 @@ public class PlayerController : MonoBehaviour
                 onPickupWeapon.Invoke();
             }
 
-            gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);
-
-            GameObject.Destroy(other.gameObject);
+            gameManager.SetWeaponGauge(weaponGauge, maxWeaponGauage);            
         }
     }
 

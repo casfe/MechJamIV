@@ -383,7 +383,7 @@ MonoBehaviour:
   leftPoint: {fileID: 0}
   middlePoint: {fileID: 0}
   groundedPoint: {fileID: 3390586828175727828}
-  horizontalSpeed: 30
+  horizontalSpeed: 10
   jumpSpeed: 30
   jumpHeight: 4.03
   fallSpeed: 9.8
@@ -405,24 +405,21 @@ MonoBehaviour:
   gaugeIncreaseFromPickup: 20
   bulletPrefab: {fileID: 7934034366942375613, guid: ff606322d23d3bc4dbf37c43c24853a7, type: 3}
   bulletSpawnPoint: {fileID: 2752601684415519980}
-  OnCollideWithObstacle:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_TargetAssemblyTypeName: GameManager, Assembly-CSharp
-        m_MethodName: HaltAllObjects
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
   weaponShoot: event:/SFX/PlayerEvents/WeaponShoot
   weaponPickup: event:/SFX/PlayerEvents/WeaponPickup
   weaponReady: event:/SFX/PlayerEvents/WeaponReady
+  onCollisionWithObstacle:
+    m_PersistentCalls:
+      m_Calls: []
+  onShootWeapon:
+    m_PersistentCalls:
+      m_Calls: []
+  onPickupWeapon:
+    m_PersistentCalls:
+      m_Calls: []
+  onWeaponReady:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &7996408267586142622
 MonoBehaviour:
   m_ObjectHideFlags: 0
