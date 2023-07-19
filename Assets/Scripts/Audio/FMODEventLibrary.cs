@@ -22,8 +22,9 @@ public class FMODEventLibrary : MonoBehaviour
     string gameplayMusicPath = "event:/Music/GameplayMusic";
     string winStingerPath = "event:/Music/WinStinger";
     string loseStingerPath = "event:/Music/LoseStinger";
-    string enemyMechDamagePath = "event:/SFX/EnemyEvents/EnemyDamage";
+    string gameplayStingerPath = "event:/Music/StartGamePlayMusic";
 
+    string enemyMechDamagePath = "event:/SFX/EnemyEvents/EnemyDamage";
     string explosionPath = "event:/SFX/EnemyEvents/EnemyAttackExplosion";
     
     FMOD.Studio.EventInstance snapshotInstance;
@@ -37,6 +38,7 @@ public class FMODEventLibrary : MonoBehaviour
     private void Start()
     {
         StartMusic();
+        FMODUtilities.PlayOneShotUsingString(gameplayStingerPath);
         snapshotInstance = RuntimeManager.CreateInstance(pauseSnapshotPath);
     }
 
