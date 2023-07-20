@@ -14,6 +14,7 @@ public class MachineGunAttack : LaneSwitchAttack
     [SerializeField] int shotsPerIteration = 5;
     [SerializeField] float distanceBetweenShots = 1;
     [SerializeField] float timeBetweenSparks = 0.2f;
+    [SerializeField] float hitLocationSpeed = 10;
 
     float sparkTimer = 0;
     int shotsFired;
@@ -23,6 +24,8 @@ public class MachineGunAttack : LaneSwitchAttack
     private int lanePicked;
     private int iteration = 0;
     private bool initialShotFired = false;
+
+    private Vector3 hitLocation;
 
     public UnityEvent OnMachineGunAttack;
     public UnityEvent OnPlayerHit;
@@ -61,6 +64,7 @@ public class MachineGunAttack : LaneSwitchAttack
     private void UpdateMachineGunAttack()
     {
         machineGun.Rotate(0, machineGunRotateSpeed, 0);
+        hitLocation.z -= hitLocationSpeed * Time.deltaTime;
 
         sparkTimer += Time.deltaTime;
 
@@ -99,6 +103,7 @@ public class MachineGunAttack : LaneSwitchAttack
             Vector3 spawnPos = new Vector3(hit.point.x, 0.53f, hit.point.z);
             sparks = Instantiate(machineGunSparks, spawnPos, Quaternion.identity);
             hitPosition = sparks.transform.position;
+            hitLocation = sparks.transform.position;
 
             initialShotFired = true;
         }
@@ -123,7 +128,7 @@ public class MachineGunAttack : LaneSwitchAttack
                 hit.transform.GetComponent<PlayerController>().Die();
             }
 
-            Collider[] collisions = Physics.OverlapSphere(sparks.transform.position, 3);
+            Collider[] collisions = Physics.OverlapSphere(hitLocation, 3);
 
             foreach(Collider collider in collisions)
             {
@@ -144,10 +149,13 @@ public class MachineGunAttack : LaneSwitchAttack
         Gizmos.DrawRay(firingPoint.position, direction * 50);
         //Gizmos.DrawRay(firingPoint.position, firingPoint.forward * 100);
 
-        if(sparks != null)
+        Gizmos.DrawWireSphere(hitLocation, 3);
+
+        /*
+        if (sparks != null)
         {
-            Gizmos.DrawWireSphere(sparks.transform.position, 3);
-        }
+            
+        }*/
     }
 
 }
