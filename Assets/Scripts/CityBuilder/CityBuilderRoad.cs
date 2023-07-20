@@ -7,6 +7,7 @@ public class CityBuilderRoad : MonoBehaviour
     [Header("- - - - [Overall Config] - - - -")]
     [SerializeField] GameObject RoadPrefab;
     [SerializeField] GameObject FirstRoad;
+    [SerializeField] Transform roadsParent;
     [SerializeField] int startRoadsCounter;
     [SerializeField] float timeToSpawnRoad = 4f;
     //TODO: Offset Inside road to be able to make different roads
@@ -38,6 +39,7 @@ public class CityBuilderRoad : MonoBehaviour
     public void SpawnNew()
     {
         GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z - spawnOffset), Quaternion.identity);
+        newRoad.transform.parent = roadsParent;
         lastRoad = newRoad;
     }
 

@@ -1,13 +1,13 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1102 &-6753611970178077283
+--- !u!1102 &-5857073464282150398
 AnimatorState:
   serializedVersion: 6
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Spider Walk
+  m_Name: New mech Walk
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions: []
@@ -20,7 +20,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: 7400000, guid: be4b6e832944fc74d8235116e6a7e432, type: 2}
+  m_Motion: {fileID: 7400000, guid: 76e31018c0f137445b455194b2d7ae00, type: 2}
   m_Tag: 
   m_SpeedParameter: 
   m_MirrorParameter: 
@@ -156,11 +156,8 @@ AnimatorStateMachine:
   m_Name: Base Layer
   m_ChildStates:
   - serializedVersion: 1
-    m_State: {fileID: -6753611970178077283}
-    m_Position: {x: 270, y: 90, z: 0}
-  - serializedVersion: 1
-    m_State: {fileID: 5826928074257461068}
-    m_Position: {x: 290, y: 210, z: 0}
+    m_State: {fileID: -5857073464282150398}
+    m_Position: {x: 250, y: 110, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -170,7 +167,7 @@ AnimatorStateMachine:
   m_EntryPosition: {x: -20, y: 90, z: 0}
   m_ExitPosition: {x: 800, y: 120, z: 0}
   m_ParentStateMachinePosition: {x: 800, y: 20, z: 0}
-  m_DefaultState: {fileID: 5826928074257461068}
+  m_DefaultState: {fileID: -5857073464282150398}
 --- !u!1102 &5826928074257461068
 AnimatorState:
   serializedVersion: 6
