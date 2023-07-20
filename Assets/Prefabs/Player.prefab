@@ -340,7 +340,7 @@ Transform:
   - {fileID: 3390586828175727828}
   - {fileID: 2752601684415519980}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!143 &2014713091799000326
 CharacterController:
@@ -407,7 +407,7 @@ MonoBehaviour:
   leftPoint: {fileID: 0}
   middlePoint: {fileID: 0}
   groundedPoint: {fileID: 3390586828175727828}
-  horizontalSpeed: 10
+  horizontalSpeed: 20
   jumpSpeed: 30
   jumpHeight: 4.03
   fallSpeed: 9.8
@@ -426,7 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   maxWeaponGauage: 100
   startingWeaponGauge: 0
-  gaugeIncreaseFromPickup: 20
+  gaugeIncreaseFromPickup: 34
   bulletPrefab: {fileID: 7934034366942375613, guid: ff606322d23d3bc4dbf37c43c24853a7, type: 3}
   bulletSpawnPoint: {fileID: 2752601684415519980}
   weaponShoot: event:/SFX/PlayerEvents/WeaponShoot
@@ -444,6 +444,21 @@ MonoBehaviour:
   onWeaponReady:
     m_PersistentCalls:
       m_Calls: []
+  OnExplosiveTouched:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: FMODEventLibrary, Assembly-CSharp
+        m_MethodName: PlayExplosionSound
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &7996408267586142622
 MonoBehaviour:
   m_ObjectHideFlags: 0

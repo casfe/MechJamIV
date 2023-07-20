@@ -241,17 +241,15 @@ public class LaserAttack : EnemyAttack
                 laserEvents.OnLaserPause?.Invoke();
                 OnPlayerHit?.Invoke();
                 playerHit = true;
+
+                hitInfo.transform.GetComponent<PlayerController>().Die();
+
             }
         }
         else
         {
             Debug.Log("Laser raycast not hitting anything");
         }
-    }
-
-    private void RotateAndFire()
-    {
-
     }
 
     private void RotateClockwise()

@@ -27,14 +27,17 @@ public class RocketAttack : EnemyAttack
     {
         base.OnEnable();
         wavesFired = 0;
+
+        FireWave();
     }
 
     private void Update()
     {
+        /*
         if (rocketLauncher.rotation.eulerAngles.y < 180)
             rocketLauncher.Rotate(0, launcherRotateSpeed * Time.deltaTime, 0);
         else if (wavesFired < 1)
-            FireWave();
+            FireWave();*/
 
         if (wavesFired == wavesToFire)
         {

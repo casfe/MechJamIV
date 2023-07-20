@@ -110,15 +110,29 @@ public class MachineGunAttack : LaneSwitchAttack
 
     private void FireShot()
     {
-        direction = (hitPosition - firingPoint.position).normalized;
+        direction = (sparks.transform.position - firingPoint.position).normalized;
 
         if (Physics.Raycast(firingPoint.position, direction, out RaycastHit hit))
         {
-            sparks.transform.Translate(Vector3.back * distanceBetweenShots);
+            sparks.transform.Translate(Vector3.back * distanceBetweenShots);            
 
             if(hit.transform.tag == "Player")
             {
+
                 OnPlayerHit?.Invoke();
+                hit.transform.GetComponent<PlayerController>().Die();
+            }
+
+            Collider[] collisions = Physics.OverlapSphere(sparks.transform.position, 3);
+
+            foreach(Collider collider in collisions)
+            {
+                if(collider.transform.tag == "Player")
+                {
+                    collider.transform.GetComponent<PlayerController>().Die();
+                    return;
+                }
+
             }
         }
 
@@ -127,8 +141,13 @@ public class MachineGunAttack : LaneSwitchAttack
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;
-        //Gizmos.DrawRay(firingPoint.position, direction * 50);
-        Gizmos.DrawRay(firingPoint.position, firingPoint.forward * 100);
+        Gizmos.DrawRay(firingPoint.position, direction * 50);
+        //Gizmos.DrawRay(firingPoint.position, firingPoint.forward * 100);
+
+        if(sparks != null)
+        {
+            Gizmos.DrawWireSphere(sparks.transform.position, 3);
+        }
     }
 
 }

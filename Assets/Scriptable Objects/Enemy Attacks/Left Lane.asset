@@ -17,7 +17,7 @@ MonoBehaviour:
   rotateSpeed: 100
   fireRotationSpeed: 20
   fireAngle: 20
-  raiseSpeed: 7
+  raiseSpeed: 6.5
   descendSpeed: 15
   raiseAngle: 7.5
   setLimit: 0
