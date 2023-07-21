@@ -40,6 +40,7 @@ public class CityBuilderRoad : MonoBehaviour
     {
         GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z - spawnOffset), Quaternion.identity);
         newRoad.transform.parent = roadsParent;
+
         lastRoad = newRoad;
     }
 
