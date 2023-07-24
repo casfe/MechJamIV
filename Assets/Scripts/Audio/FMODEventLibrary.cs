@@ -37,9 +37,20 @@ public class FMODEventLibrary : MonoBehaviour
 
     private void Start()
     {
-        StartMusic();
-        FMODUtilities.PlayOneShotUsingString(gameplayStingerPath);
         snapshotInstance = RuntimeManager.CreateInstance(pauseSnapshotPath);
+    }
+
+    void InitialiazeMusic()
+    {
+        if (RuntimeManager.HaveAllBanksLoaded)
+        {
+            StartMusic();
+            FMODUtilities.PlayOneShotUsingString(gameplayStingerPath);
+        }
+        else
+        {
+            Invoke("InitializeMusic", 0.2f);
+        }
     }
 
     public void PlayMachineGunStartSound()

@@ -13,8 +13,7 @@ public class FMODMenuLibrary : MonoBehaviour
 
     private void Start()
     {
-        menuMusicInstance = RuntimeManager.CreateInstance(menuMusicPath);
-        menuMusicInstance.start();
+        StartMenuMusic();
     }
 
     public void PlayUIButtonAccept()
@@ -31,5 +30,18 @@ public class FMODMenuLibrary : MonoBehaviour
     {
         menuMusicInstance.stop(FMOD.Studio.STOP_MODE.IMMEDIATE);
         menuMusicInstance.release();
+    }
+
+    public void StartMenuMusic()
+    {
+        if (RuntimeManager.HaveAllBanksLoaded)
+        {
+            menuMusicInstance = RuntimeManager.CreateInstance(menuMusicPath);
+            menuMusicInstance.start();
+        }
+        else
+        {
+            Invoke("StartMenuMusic", 0.2f);
+        }
     }
 }
