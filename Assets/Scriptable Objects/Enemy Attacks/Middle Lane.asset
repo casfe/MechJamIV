@@ -12,10 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2211bbb7cc91caf4e939cc3e2aa85919, type: 3}
   m_Name: Middle Lane
   m_EditorClassIdentifier: 
-  standbyTime: 2
   startDirection: 0
-  defaultRotateSpeed: 100
-  verticalVelocity: 10
+  verticalVelocity: 12
   horizontalVelocity: 10
   maxHorizontalDistance: 20
   maxVerticalDistance: 50

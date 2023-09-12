@@ -41,7 +41,7 @@ public class EnemyController : MonoBehaviour
         enemyAttackList[0] = GetComponent<MineAttack>();
         enemyAttackList[1] = GetComponent<RocketAttack>();
         enemyAttackList[2] = GetComponent<MachineGunAttack>();
-        enemyAttackList[3] = GetComponent<NewLaserAttack>();
+        enemyAttackList[3] = GetComponent<LaserAttack>();
         
         gameManager = GameManager.Instance;
 

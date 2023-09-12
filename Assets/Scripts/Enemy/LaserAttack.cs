@@ -1,142 +1,236 @@
-using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Xml.Serialization;
 using UnityEngine;
-using UnityEngine.Events;
 
 public class LaserAttack : EnemyAttack
 {
-    public Transform laserGunSet;
-    public Transform laserCannon;
-    public Transform firePoint;
+    [Header("Game Objects and transform")]
+    [SerializeField] Transform laserGunSet;
+    [SerializeField] Transform laserCannon;
+    [SerializeField] Transform firePoint;
+    [SerializeField] Transform marker;
+    [SerializeField] Transform markerOrigin;
 
-    [SerializeField] float standbyTime = 2.0f;
+    [Header("Default Turret Rotation")]
+    [Tooltip("Time delay before the after the turret faces the player before firing the laser")]
+    [SerializeField] float standbyTime = 2.0f;    
+    [Tooltip("The speed in which the turret will rotate towards and away from the player when not firing")]
+    [SerializeField] float horizontalRotateSpeed = 100;
+    [Tooltip("The speed in which the will rotate back down after completing an attack")]
+    [SerializeField] float verticalRotateSpeed = 100;
 
     [SerializeField] LaserAttackValues[] attackTypes;
 
-    private int fireIterations;
-
-    // Cannon Horizontal Rotation
-    private RotateDirection startDirection;
-    private float rotateSpeed;
-    private float fireRotationSpeed;
-    private float fireAngle;
-
-    // Cannon Veritcal Rotation
-    private float raiseSpeed;
-    private float descendSpeed;
-    private float raiseAngle;
-
-    private bool setLimit;
-    private float limitAngle;
-
-    private LineRenderer laserLine;
-   
-    private int iteration = 0;
-    private int attacksPerformed = 0;
-    private bool raiseGun = true;
-    private RotationState state = RotationState.RotateTowardsPlayer;
-
-    public enum RotateDirection { Clockwise, AntiClockwise };
-
+    [Header("Events")]
     [SerializeField] public LaserEvents laserEvents;
 
-    public UnityEvent OnPlayerHit;
-    bool playerHit = false;
+    RotateDirection startDirection = RotateDirection.Clockwise;
 
-    enum RotationState
+    //[Header("Marker Movement ")]
+    float verticalVelocity = 1;
+    float horizontalVelocity = 1;
+    float maxHorizontalDistance = 1;
+    float maxVerticalDistance = 5;
+
+    //[Header("For Debugging")]
+    private float horizontalDistance = 0;
+    private float verticalDistance = 0;
+
+    private Vector3 markerVelocity;
+    private bool clockwiseRotation;
+    private bool rotatingFromCenter;
+
+    private Vector3 lastEndPoint;
+    private AttackState state;
+    private bool horiztonalAngleReached;
+    private bool verticalAngleReached;
+    private float cannonStartAngle;
+
+    private bool playerHit;
+    private int iterations;
+
+    LineRenderer laserLine;    
+
+    enum AttackState
     {
         Standby,
         RotateTowardsPlayer,
-        RotateClockwise,
-        RotateAntiClockwise,
+        FireLaser,
         ReturnToCenter,
         ReturnToOrigin
     }
 
-    protected override void OnEnable()
-    {        
+    new void OnEnable()
+    {
         base.OnEnable();
+
         laserLine = laserGunSet.GetComponent<LineRenderer>();
-        attacksPerformed = 0;
-        iteration = 0;
+
+        iterations = 0;
 
         InitializeValues(0);
 
-        laserGunSet.localRotation = Quaternion.identity;
-        laserCannon.localRotation = Quaternion.Euler(0, -20.716f, 0);
-        state = RotationState.RotateTowardsPlayer;
+        state = AttackState.RotateTowardsPlayer;
+
+        playerHit = false;
+
+        cannonStartAngle = laserCannon.localRotation.eulerAngles.x;
     }
 
     private void InitializeValues(int index)
     {
-        fireIterations = attackTypes[index].fireIterations;
+        // read values from scriptable object
         startDirection = attackTypes[index].startDirection;
-        rotateSpeed = attackTypes[index].rotateSpeed;
-        fireRotationSpeed = attackTypes[index].fireRotationSpeed;
-        fireAngle = attackTypes[index].fireAngle;
-        raiseSpeed = attackTypes[index].raiseSpeed;
-        descendSpeed = attackTypes[index].descendSpeed;
-        raiseAngle = attackTypes[index].raiseAngle;
-        setLimit = attackTypes[index].setLimit;
-        limitAngle = attackTypes[index].limitAngle;
+        verticalVelocity = attackTypes[index].verticalVelocity;
+        horizontalVelocity = attackTypes[index].horizontalVelocity;
+        maxHorizontalDistance = attackTypes[index].maxHorizontalDistance;
+        maxVerticalDistance = attackTypes[index].maxVerticalDistance;
+
+        // update other varaibles        
+        clockwiseRotation = (startDirection == RotateDirection.Clockwise);
+        lastEndPoint = markerOrigin.position;
+        marker.position = markerOrigin.position; // resets marker position
+
+        rotatingFromCenter = true;
     }
 
-    void Update()
-    {        
-        switch(state)
+    // Update is called once per frame
+    void FixedUpdate()
+    {
+        switch (state)
         {
-            case RotationState.RotateTowardsPlayer:
+            case AttackState.RotateTowardsPlayer:
                 RotateTowardsPlayer();
-            break;
+                break;
 
-            case RotationState.RotateClockwise:
-                RotateClockwise();
+            case AttackState.Standby:
+                break;
+
+            case AttackState.FireLaser:
+                UpdateMarkerPosition();
+                UpdateTurretRotation();
                 UpdateLaserLine();
-            break;
+                break;
 
-            case RotationState.RotateAntiClockwise:
-                RotateAntiClockwise();
-                UpdateLaserLine();
-            break;
+            case AttackState.ReturnToCenter:
+                RotateToCenter();
+                break;
 
-            case RotationState.ReturnToCenter:
-                ReturnToCenter();
-            break;
-
-            case RotationState.ReturnToOrigin:
+            case AttackState.ReturnToOrigin:
                 RotateToOrigin();
-           break;
+                break;
         }
 
-        UpdateVerticalRotation();
+    }
+
+    private void UpdateMarkerPosition()
+    {
+        // calculate the horizontal distanceW
+        if (clockwiseRotation) //(startDirection == RotateDirection.Clockwise)
+            horizontalDistance = Mathf.Abs(marker.position.x - lastEndPoint.x);
+        else
+        {
+            if (lastEndPoint.x < 0)
+                horizontalDistance = Mathf.Abs(lastEndPoint.x) + marker.position.x;
+            else
+                horizontalDistance = marker.position.x - lastEndPoint.x;
+        }
+
+        verticalDistance = Mathf.Abs(marker.position.z - markerOrigin.position.z);
+
+        marker.Translate(markerVelocity * Time.deltaTime);
+
+        // finish attack when reaching the maxmimum distance down the road
+        if (verticalDistance > maxVerticalDistance)
+        {
+            state = AttackState.ReturnToCenter;
+            laserLine.enabled = false;
+            clockwiseRotation = !clockwiseRotation;
+        }
+        // check if the edge of the road has been reached
+        else if (horizontalDistance > maxHorizontalDistance || 
+            (rotatingFromCenter && horizontalDistance > maxHorizontalDistance / 2))
+        {
+            clockwiseRotation = !clockwiseRotation;
+            lastEndPoint = marker.position;
+            rotatingFromCenter = false;
+
+            UpdateDirection();
+        }
+        
+    }
+
+    private void UpdateTurretRotation()
+    {
+        Vector3 aimVector = marker.position - laserCannon.position;
+        Vector3 aimVectorXZ = aimVector;
+        aimVectorXZ.y = 0;
+
+        // sets the horizontal rotation of the turret
+        laserGunSet.rotation = Quaternion.LookRotation(aimVectorXZ.normalized, Vector3.up);
+
+        //Debug.DrawRay(laserGunSet.position, laserGunSet.forward * 100, Color.yellow);
+
+        // sets the vertical rotation
+        Vector3 cannonPointDirection = new Vector3(0, aimVector.y, aimVectorXZ.magnitude).normalized;
+        laserCannon.localRotation = Quaternion.LookRotation(cannonPointDirection, Vector3.up);
+
+        //Debug.DrawRay(firePoint.position, -cannonPointDirection * 100, Color.yellow);
+        //Debug.DrawRay(firePoint.position, laserCannon.forward * 100, Color.yellow);
+    }
+
+    private void UpdateLaserLine()
+    {
+        Vector3 fireDirection = laserCannon.forward;
+                                //(marker.position - firePoint.position).normalized;
+        Ray raycast = new Ray(firePoint.position, fireDirection);
+
+        laserLine.SetPosition(0, firePoint.position);        
+        
+        if (Physics.Raycast(raycast, out RaycastHit hitInfo))
+        {
+            laserLine.SetPosition(1, hitInfo.point);
+
+            if (hitInfo.transform.tag == "Player")
+            {
+                if (playerHit) return;
+
+                laserEvents.OnLaserPause?.Invoke();
+                //OnPlayerHit?.Invoke();
+                playerHit = true;
+
+                hitInfo.transform.GetComponent<PlayerController>().Die();
+                laserLine.enabled = false;
+            }
+        }
+        else
+        {
+            Debug.Log("Laser raycast not hitting anything");
+        }
+    }
+
+    private void UpdateDirection()
+    {
+        if(clockwiseRotation)
+            markerVelocity = new Vector3(-horizontalVelocity, 0, -verticalVelocity);
+        else
+            markerVelocity = new Vector3(horizontalVelocity, 0, -verticalVelocity);
     }
 
     private void RotateTowardsPlayer()
     {
-        if(startDirection == RotateDirection.Clockwise)
+        float rotation = startDirection == RotateDirection.Clockwise ? horizontalRotateSpeed : -horizontalRotateSpeed;      
+        laserGunSet.Rotate(0, rotation * Time.deltaTime, 0, Space.Self);
+
+        float angleFromCenter = Quaternion.Angle(laserGunSet.rotation, Quaternion.Euler(0, 180, 0));
+
+        if (angleFromCenter < 1)
         {
-            laserGunSet.Rotate(0, rotateSpeed * Time.deltaTime, 0, Space.Self);
+            laserGunSet.rotation = Quaternion.Euler(0, 180, 0);
 
-            if (laserGunSet.rotation.eulerAngles.y >= 180)
-            {
-                state = RotationState.Standby;
-                laserEvents.OnLaserLock?.Invoke();
-                Invoke("FireLaser", standbyTime);
-            }
-        }
-        else if(startDirection == RotateDirection.AntiClockwise)
-        {
-            laserGunSet.Rotate(0, -rotateSpeed * Time.deltaTime, 0, Space.Self);
-
-            if (laserGunSet.transform.rotation.eulerAngles.y <= 180)
-            {
-                state = RotationState.Standby;
-                laserEvents.OnLaserLock?.Invoke();
-                Invoke("FireLaser", standbyTime);
-            }
-
+            state = AttackState.Standby;
+            laserEvents.OnLaserLock?.Invoke();
+            Invoke("FireLaser", standbyTime);
         }
 
         if (!laserEvents.startSoundPlayed)
@@ -146,28 +240,86 @@ public class LaserAttack : EnemyAttack
         }
     }
 
+    private void RotateToCenter()
+    {
+        float rotation = horizontalRotateSpeed;
+
+        if (clockwiseRotation)
+        {
+            rotation = horizontalRotateSpeed;
+            horiztonalAngleReached = Quaternion.Angle(laserGunSet.localRotation, Quaternion.Euler(0, 180, 0)) < 1;
+        }
+        else
+        {
+            rotation = -horizontalRotateSpeed;
+            horiztonalAngleReached = Quaternion.Angle(laserGunSet.localRotation, Quaternion.Euler(0, 180, 0)) < 1;
+        }
+
+        verticalAngleReached = Quaternion.Angle(laserCannon.localRotation, Quaternion.Euler(cannonStartAngle, 0, 0)) < 1;
+
+        // rotate the gun parts
+        if (!horiztonalAngleReached)
+            laserGunSet.Rotate(0, rotation * Time.deltaTime, 0, Space.Self);
+
+        if(!verticalAngleReached)
+            laserCannon.Rotate(verticalRotateSpeed * Time.deltaTime, 0, 0);
+
+        if (horiztonalAngleReached && verticalAngleReached)
+        {
+            laserGunSet.localRotation = Quaternion.Euler(0, 180, 0);
+            laserCannon.localRotation = Quaternion.Euler(cannonStartAngle, 0, 0);
+            state = AttackState.Standby;
+
+            iterations++;
+
+            // begin next laser attack if there are more available
+            if(iterations >= attackTypes.Length)
+            {
+                state = AttackState.ReturnToOrigin;
+            }   
+            else
+            {
+                InitializeValues(iterations);
+                Invoke("FireLaser", standbyTime);
+            }
+        }
+
+        if (!laserEvents.endSoundPlayed)
+        {
+            laserEvents.OnLaserEnd?.Invoke();
+            laserEvents.endSoundPlayed = true;
+        }
+    }
+
     private void RotateToOrigin()
     {
-        float rotation = rotateSpeed;
-        bool limitReached = false;
+        float rotation = horizontalRotateSpeed;
+        horiztonalAngleReached = false;
 
         if (startDirection == RotateDirection.Clockwise)
         {
-            rotation = -rotateSpeed;
-            limitReached = laserGunSet.rotation.y <= 0;
+            rotation = horizontalRotateSpeed;
+            horiztonalAngleReached = Quaternion.Angle(laserGunSet.rotation, Quaternion.identity) < 1;
         }
-        else if(startDirection == RotateDirection.AntiClockwise)
+        else if (startDirection == RotateDirection.AntiClockwise)
         {
-            rotation = rotateSpeed;
-            limitReached = laserGunSet.rotation.y >= 0;
+            rotation = -horizontalRotateSpeed;
+            horiztonalAngleReached = Quaternion.Angle(laserGunSet.rotation, Quaternion.identity) < 1;
         }
 
-        laserGunSet.Rotate(0, rotation * Time.deltaTime, 0, Space.Self);
+        // rotate the gun parts
+        if (!horiztonalAngleReached)
+            laserGunSet.Rotate(0, rotation * Time.deltaTime, 0, Space.Self);
 
-        if (limitReached)
+        //if (!verticalAngleReached)
+            //laserCannon.Rotate(rotateSpeed * Time.deltaTime, 0, 0);
+
+        if (horiztonalAngleReached && verticalAngleReached)
         {
-            laserCannon.rotation = Quaternion.identity;
-            state = RotationState.Standby;
+            laserGunSet.localRotation = Quaternion.identity;
+            laserCannon.localRotation = Quaternion.Euler(cannonStartAngle, 0, 0);
+
+            state = AttackState.Standby;
             AttackFinished = true;
         }
 
@@ -178,203 +330,22 @@ public class LaserAttack : EnemyAttack
         }
     }
 
-    private void ReturnToCenter()
-    {
-        bool limitReached;
-
-        if (laserGunSet.rotation.eulerAngles.y < 180)
-        {
-            laserGunSet.Rotate(0, fireRotationSpeed * Time.deltaTime, 0, Space.Self);
-            limitReached = laserGunSet.rotation.eulerAngles.y >= 180;
-
-        }
-        else if(laserGunSet.rotation.eulerAngles.y > 180)
-        {
-            laserGunSet.Rotate(0, -fireRotationSpeed * Time.deltaTime, 0, Space.Self);
-            limitReached = laserGunSet.rotation.eulerAngles.y <= 180;
-        }
-        else
-        {
-            limitReached = true;
-        }
-
-        if (limitReached)
-        {
-            attacksPerformed++;
-            if (attacksPerformed >= attackTypes.Length)
-            {
-                laserEvents.OnLaserPause?.Invoke();
-                state = RotationState.ReturnToOrigin;
-            }
-            else
-            {                
-                iteration = 0;
-                raiseGun = true;
-                state = RotationState.Standby;
-
-                InitializeValues(attacksPerformed);
-
-                laserEvents.shootSoundPlayed = false;
-                laserEvents.OnLaserPause?.Invoke();
-
-                Invoke("FireLaser", standbyTime);
-            }
-        }
-
-    }
-
-    private void UpdateLaserLine()
-    {
-        Vector3 fireDirection = firePoint.forward;
-        Ray raycast = new Ray(firePoint.position, firePoint.forward);
-
-        laserLine.SetPosition(0, firePoint.position);
-
-        if(Physics.Raycast(raycast, out RaycastHit hitInfo))
-        {
-            laserLine.SetPosition(1, hitInfo.point);
-
-            if(hitInfo.transform.tag == "Player")
-            {
-                if (playerHit) return;
-
-                laserEvents.OnLaserPause?.Invoke();
-                OnPlayerHit?.Invoke();
-                playerHit = true;
-
-                hitInfo.transform.GetComponent<PlayerController>().Die();
-
-            }
-        }
-        else
-        {
-            Debug.Log("Laser raycast not hitting anything");
-        }
-    }
-
-    private void RotateClockwise()
-    {
-        bool limitReached = false;
-        laserGunSet.Rotate(0, fireRotationSpeed * Time.deltaTime, 0, Space.Self);
-
-        if(setLimit && iteration == fireIterations)
-        {
-            if(laserGunSet.transform.rotation.eulerAngles.y >= limitAngle)
-            {
-                limitReached = true;
-            }
-
-        }
-        else if (laserGunSet.transform.rotation.eulerAngles.y >= 180 + (fireAngle / 2))
-        {
-            limitReached = true;
-        }
-
-        if(limitReached)
-        {
-            iteration++;
-
-            if (iteration > fireIterations)
-            {
-                state = RotationState.ReturnToCenter;
-                laserLine.enabled = false;
-            }
-            else
-                state = RotationState.RotateAntiClockwise;
-        }
-
-    }
-
-    private void RotateAntiClockwise()
-    {
-        bool limitReached = false;
-        laserGunSet.Rotate(0, -fireRotationSpeed * Time.deltaTime, 0, Space.Self);
-
-        if (setLimit && iteration == fireIterations)
-        {
-            if (laserGunSet.transform.rotation.eulerAngles.y <= limitAngle)
-            {
-                limitReached = true;
-            }
-
-        }
-        else if (laserGunSet.rotation.eulerAngles.y <= 180 - (fireAngle / 2))
-        {
-            limitReached = true;
-        }
-
-        if (limitReached)
-        {
-            iteration++;
-
-            if (iteration > fireIterations)
-            {
-                state = RotationState.ReturnToCenter;
-                laserLine.enabled = false;
-            }
-            else
-                state = RotationState.RotateClockwise;
-        }
-
-    }
-
-    private void UpdateVerticalRotation()
-    {
-        if (raiseGun && (state == RotationState.RotateClockwise || state == RotationState.RotateAntiClockwise))
-        {
-            float angleTravelled = Mathf.Abs(laserCannon.eulerAngles.x - 360);
-
-            laserCannon.Rotate(Vector3.left * raiseSpeed * Time.deltaTime, Space.Self);
-
-            if (angleTravelled >= raiseAngle && angleTravelled < raiseAngle + 1)
-            {
-                raiseGun = false;
-            }
-        }
-
-        if (state == RotationState.ReturnToOrigin || state == RotationState.ReturnToCenter)
-        {
-            if (laserCannon.eulerAngles.x < 360 && laserCannon.eulerAngles.x > 1)
-                laserCannon.Rotate(Vector3.right * descendSpeed * Time.deltaTime, Space.Self);
-            else if(laserCannon.eulerAngles.x < 1 || laserCannon.eulerAngles.x > 360)
-                laserCannon.localRotation = Quaternion.identity;
-        }
-    }
-
     private void FireLaser()
     {
-        iteration++;        
+        state = AttackState.FireLaser;
+
+        laserLine.SetPosition(0, firePoint.position);
+        laserLine.SetPosition(1, marker.position);
         laserLine.enabled = true;
 
-        if (startDirection == RotateDirection.Clockwise)
-            state = RotationState.RotateClockwise;
-        else
-            state = RotationState.RotateAntiClockwise;
-
-        if (!laserEvents.shootSoundPlayed)
-        {
-            laserEvents.OnLaserShoot?.Invoke();
-            laserEvents.shootSoundPlayed = true;
-        }
+        UpdateDirection();
+        UpdateLaserLine();
     }
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawRay(firePoint.position, firePoint.forward * 50);
+        Gizmos.color = Color.blue;
+        Gizmos.DrawRay(laserCannon.position, laserCannon.forward * 100);
     }
-}
 
-[Serializable]
-public class LaserEvents
-{
-    public UnityEvent OnLaserWindup;
-    public UnityEvent OnLaserShoot;
-    public UnityEvent OnLaserPause;
-    public UnityEvent OnLaserEnd;
-    public UnityEvent OnLaserLock;
-
-    [HideInInspector] public bool startSoundPlayed;
-    [HideInInspector] public bool shootSoundPlayed;
-    [HideInInspector] public bool endSoundPlayed;
 }
