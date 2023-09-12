@@ -9,13 +9,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2211bbb7cc91caf4e939cc3e2aa85919, type: 3}
-  m_Name: Left Lane
+  m_Script: {fileID: 11500000, guid: 933e82f1aeedb0c43a954bbeb8b524df, type: 3}
+  m_Name: Right Lane
   m_EditorClassIdentifier: 
-  standbyTime: 2
-  startDirection: 1
-  defaultRotateSpeed: 100
-  verticalVelocity: 20
-  horizontalVelocity: 10
-  maxHorizontalDistance: 20
-  maxVerticalDistance: 50
+  fireIterations: 2
+  startDirection: 0
+  rotateSpeed: 100
+  fireRotationSpeed: 20
+  fireAngle: 20
+  raiseSpeed: 6.5
+  descendSpeed: 15
+  raiseAngle: 7.5
+  setLimit: 0
+  limitAngle: 0

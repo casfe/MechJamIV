@@ -90,9 +90,17 @@ public class PlayerMovement : MonoBehaviour
             transform.position = new Vector3(transform.position.x + horizontalSpeed * side * Time.deltaTime,transform.position.y,transform.position.z);
         }
 
-        //Check if reached and put player in target EXACTLY position
-        if (Mathf.Abs(targetX - transform.position.x) < 0.1)
-            transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+        if(side > 0) // moving right
+        {
+            if(transform.position.x >= targetX)
+                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+
+        }
+        else if(side < 0) // moving left
+        {
+            if (transform.position.x <= targetX)
+                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+        }
 
         animator.SetBool("onGround", true);
 
@@ -177,6 +185,8 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.height /= 2;
         controller.center = new Vector3(0, -0.5f, 0);
+
+
         animator.SetTrigger("Slide");
         Ducking = true;
     }

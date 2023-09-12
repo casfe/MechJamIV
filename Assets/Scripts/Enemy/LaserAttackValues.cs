@@ -30,5 +30,4 @@ public class LaserAttackValues : ScriptableObject
     [Header("Limit on final iteration")]
     public bool setLimit;
     public float limitAngle;
-
 }

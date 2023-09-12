@@ -9,7 +9,6 @@ public class RocketAttack : EnemyAttack
     public GameObject rocketPrefab;
     public Transform rocketLauncher;
     public Transform spawnPoint;
-    [SerializeField] int launcherRotateSpeed = 1;
     [SerializeField] int wavesToFire = 1;
     [SerializeField] float timeBetweenWaves = 1;
 
