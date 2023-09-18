@@ -4,21 +4,21 @@ using UnityEngine;
 
 public class CityBuilderRoad : MonoBehaviour
 {
-    [Header("- - - - [Overall Config] - - - -")]
     [SerializeField] GameObject RoadPrefab;
     [SerializeField] GameObject FirstRoad;
     [SerializeField] Transform roadsParent;
     [SerializeField] int startRoadsCounter;
     [SerializeField] float timeToSpawnRoad = 4f;
-    //TODO: Offset Inside road to be able to make different roads
     [SerializeField] float spawnOffset;
+
     GameObject lastRoad;
-    float counter;
+    Vector3 spawnedPosition;
 
     private void Start()
     {
         lastRoad = FirstRoad;
-        //We're gonna spawn 4 new roads
+
+        // spawn starting roads
         for (int i = 0; i < startRoadsCounter; i++)
         {
             SpawnNew();
@@ -27,19 +27,18 @@ public class CityBuilderRoad : MonoBehaviour
 
     public void UpdateRoadBuilder()
     {
-        counter += Time.deltaTime;
-        //If its time spawn a road
-        if (counter >= timeToSpawnRoad)
+        // if the road has moved far enough it is time to spawn another one
+        if(spawnedPosition.z - lastRoad.transform.position.z >= spawnOffset)
         {
             SpawnNew();
-            counter = 0;
         }
     }
 
     public void SpawnNew()
     {
-        GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z - spawnOffset), Quaternion.identity);
+        GameObject newRoad = Instantiate(RoadPrefab, new Vector3(lastRoad.transform.position.x, lastRoad.transform.position.y, lastRoad.transform.position.z + spawnOffset), Quaternion.identity);
         newRoad.transform.parent = roadsParent;
+        spawnedPosition = newRoad.transform.position;
 
         lastRoad = newRoad;
     }
