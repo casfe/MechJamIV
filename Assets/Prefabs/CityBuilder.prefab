@@ -179,6 +179,7 @@ GameObject:
   - component: {fileID: 4931237898788256288}
   - component: {fileID: 1797963312624513979}
   - component: {fileID: 4148038497596778643}
+  - component: {fileID: 6891877987214613478}
   m_Layer: 0
   m_Name: CityBuilder
   m_TagString: Untagged
@@ -202,7 +203,7 @@ Transform:
   - {fileID: 2648170392458333703}
   - {fileID: 2752135095639035837}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &4743568552123242671
 MonoBehaviour:
@@ -235,6 +236,7 @@ MonoBehaviour:
   selectBuildingsRandomly: 0
   leftSpawnPoint: {fileID: 250571047000123439}
   rightSpawnPoint: {fileID: 1379646156368993285}
+  centerSpawnPoint: {fileID: 0}
   leftSideBuildings:
   - {fileID: 8617847454369781703, guid: 1ff77f4a256cafe41aa74e492becdb14, type: 3}
   - {fileID: 168184958111119660, guid: 806a069f12750094582ae274399fce54, type: 3}
@@ -245,9 +247,11 @@ MonoBehaviour:
   - {fileID: 6595622146489109473, guid: 21bbb4d064f33e14faf1c22e4b854191, type: 3}
   - {fileID: 5480231823767772808, guid: 4a5cb95b07afdda45922befdcfa2f991, type: 3}
   - {fileID: 9195020459989576849, guid: ecd560965e2412c44af6b85c38526509, type: 3}
+  intersectObjects: []
+  intersectFrequency: 10
   startingBuildingsPerSide: 13
   spawnOffset: 18
-  timeBetweenBuldings: 0.5
+  timeBetweenBuildings: 0.5
 --- !u!114 &1797963312624513979
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,6 +282,21 @@ MonoBehaviour:
   startRoadsCounter: 5
   timeToSpawnRoad: 1.5
   spawnOffset: 48
+--- !u!114 &6891877987214613478
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2413345537048141216}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c49164ade378324ca604b24a65a76c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  obstacle: {fileID: 1370585529983183992, guid: 91b9a314217eb734da61f69e66a08527, type: 3}
+  obstacleSpawnPoint: {fileID: 2105528009517792249}
+  timeBetweenObstacles: 8
 --- !u!1 &4874519947413912768
 GameObject:
   m_ObjectHideFlags: 0

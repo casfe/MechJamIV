@@ -1876,7 +1876,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8739681325232837236, guid: 77f1f76a08e14f14485da3d677f55d1a, type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8739681325232837236, guid: 77f1f76a08e14f14485da3d677f55d1a, type: 3}
       propertyPath: maxTimeDelay
