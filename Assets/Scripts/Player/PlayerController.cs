@@ -49,7 +49,7 @@ public class PlayerController : MonoBehaviour
     {
         if (collision.gameObject.layer == 6) // hazard layer
         {
-            GameObject.Destroy(collision.gameObject);
+            //GameObject.Destroy(collision.gameObject);
 
             Die();
 
@@ -99,7 +99,9 @@ public class PlayerController : MonoBehaviour
     {
         onCollisionWithObstacle.Invoke();
         animator.SetTrigger("Die");
-        GetComponent<PlayerMovement>().enabled = false;
+        //GetComponent<PlayerMovement>().enabled = false;
+        gameManager.GameRunning = false;
+
         this.enabled = false;
     }
 

@@ -54,23 +54,29 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        leftPressed = Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A);
-        rightPressed = Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
-        upPressed = Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
-        downPressed = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
+        if (GameManager.Instance.GameRunning)
+        {
 
-        //Check if is moving
-        if (targetX == transform.position.x)
-        { 
-            //Check if key pressed
-            if (leftPressed) 
-                goLeft();
-            else if (rightPressed) 
-                goRight();
-            else if (upPressed && !Jumping && !Ducking && isGrounded)
-                Jump();            
-            else if (downPressed && !Ducking & !Jumping && isGrounded)
-                Duck();              
+            leftPressed = Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A);
+            rightPressed = Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
+            upPressed = Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
+            downPressed = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
+
+            //Check if is moving
+            if (targetX == transform.position.x)
+            {
+                //Check if key pressed
+                if (leftPressed)
+                    goLeft();
+                else if (rightPressed)
+                    goRight();
+                else if (upPressed && !Jumping && !Ducking && isGrounded)
+                    Jump();
+                else if (downPressed && !Ducking & !Jumping && isGrounded)
+                    Duck();
+            }
+
+            PerformHorizontalMovement();
         }
 
         // fall if in air
@@ -84,30 +90,33 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        //Perform movement
-        if (targetX != transform.position.x)
-        {
-            transform.position = new Vector3(transform.position.x + horizontalSpeed * side * Time.deltaTime,transform.position.y,transform.position.z);
-        }
-
-        if(side > 0) // moving right
-        {
-            if(transform.position.x >= targetX)
-                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
-
-        }
-        else if(side < 0) // moving left
-        {
-            if (transform.position.x <= targetX)
-                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
-        }
-
         animator.SetBool("onGround", true);
 
         if (Jumping)
             UpdateJump();
 
         isGrounded = IsGrounded();
+    }
+
+    private void PerformHorizontalMovement()
+    {
+        //Perform movement
+        if (targetX != transform.position.x)
+        {
+            transform.position = new Vector3(transform.position.x + horizontalSpeed * side * Time.deltaTime, transform.position.y, transform.position.z);
+        }
+
+        if (side > 0) // moving right
+        {
+            if (transform.position.x >= targetX)
+                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+
+        }
+        else if (side < 0) // moving left
+        {
+            if (transform.position.x <= targetX)
+                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+        }
     }
 
     /// <summary>

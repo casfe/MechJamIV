@@ -4,11 +4,19 @@ using UnityEngine;
 
 public class MoveTowardsPlayer : MonoBehaviour
 {
-    [SerializeField] float speed = 2f;
+    private float speed;
+
+    private void Start()
+    {
+        speed = GameManager.Instance.RunSpeed;
+    }
 
     void Update()
     {
-        transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - speed * Time.deltaTime);
+        if (GameManager.Instance.GameRunning)
+        {
+            transform.position = new Vector3(transform.position.x, transform.position.y, transform.position.z - speed * Time.deltaTime);
+        }
     }
 
     private void OnTriggerEnter(Collider other)

@@ -607,7 +607,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156858637238461236, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8291791490256431354, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1444,6 +1444,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e470ed6cbd6586b488c981e17a6d2354, type: 3}
+--- !u!4 &1743146010 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2105528009517792249, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+  m_PrefabInstance: {fileID: 243615534585412258}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &243615534585412258
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1457,9 +1462,37 @@ PrefabInstance:
       value: CityBuilder
       objectReference: {fileID: 0}
     - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: bridgePrefab
+      value: 
+      objectReference: {fileID: 8004366037309800794, guid: 6df8f92e2fdf8e04d97c29485b9ce6ad, type: 3}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: centerSpawnPoint
+      value: 
+      objectReference: {fileID: 1743146010}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: intersectFrequency
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: selectBuildingsRandomly
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: intersectObjects.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: intersectObjects.Array.data[0]
+      value: 
+      objectReference: {fileID: 6513140049245056624, guid: fd8e43e40fb22584ebe3b3c82805351f, type: 3}
+    - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
+      propertyPath: intersectObjects.Array.data[1]
+      value: 
+      objectReference: {fileID: 8004366037309800794, guid: 6df8f92e2fdf8e04d97c29485b9ce6ad, type: 3}
     - target: {fileID: 6697754985476055301, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: m_RootOrder
       value: 2

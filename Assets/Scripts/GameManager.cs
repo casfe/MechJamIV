@@ -7,7 +7,10 @@ using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
+    // exposed/public variables
     [SerializeField] GameObject cityBuilder;
+
+    [SerializeField] float runSpeed = 30;
 
     [Header("UI")]
     [SerializeField] GameObject gameOverMessage;
@@ -18,19 +21,23 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image weaponGaugeBar;
     [SerializeField] RectTransform enemyHealthBar;
 
-    public static GameManager Instance { get; private set; }
+    [Header("FMOD Events")]
+    public UnityEvent OnGameWon;
+    public UnityEvent OnGameLost;
+    public UnityEvent OnGamePaused;
+    public UnityEvent OnGameResumed;    
 
+    // private variables
     private float maxGaugeWidth;
     private Color defaultGaugeColor;
     private float maxHealthbarWidth;
 
     private bool gamePaused = false;
 
-    [Header("FMOD Events")]
-    public UnityEvent OnGameWon;
-    public UnityEvent OnGameLost;
-    public UnityEvent OnGamePaused;
-    public UnityEvent OnGameResumed;
+    // properties
+    public static GameManager Instance { get; private set; }
+    public float RunSpeed => runSpeed;
+    public bool GameRunning { get; set; } = true;
 
     private void Awake()
     {

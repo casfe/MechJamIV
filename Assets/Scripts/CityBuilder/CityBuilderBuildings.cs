@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class CityBuilderBuildings : MonoBehaviour
 {
-
     [SerializeField] bool selectBuildingsRandomly;
 
     // public varables
     [Header("Spawners")]
     [SerializeField] Transform leftSpawnPoint;
     [SerializeField] Transform rightSpawnPoint;
+    [SerializeField] Transform centerSpawnPoint;
 
     [Header("Building Types")]
     [SerializeField] GameObject[] leftSideBuildings;
     [SerializeField] GameObject[] rightSideBuildings;
+
+    [Header("Intersections")]
+    [SerializeField] GameObject[] intersectObjects;
+    [SerializeField] float intersectFrequency = 10;
 
     [Header("Initial Spawning")]
     [SerializeField] uint startingBuildingsPerSide = 12;
@@ -22,12 +26,15 @@ public class CityBuilderBuildings : MonoBehaviour
 
     [Header("Continued Spawning")]
     [Range(0, 1)]
-    [SerializeField] float timeBetweenBuldings = 0.5f;
+    [SerializeField] float timeBetweenBuildings = 0.5f;
 
     // private variables
     float timeSinceLastSpawn = 0;
     uint leftBuildingIndex = 0;
     uint rightBuildingIndex = 0;
+    uint objectIndex = 0;
+
+    private float buildingsSinceIntersection = 0;
 
     void Start()
     {
@@ -35,6 +42,7 @@ public class CityBuilderBuildings : MonoBehaviour
         {
             SpawnBuildingOnLeft(i * spawnOffset);
             SpawnBuildingOnRight(i * spawnOffset);
+            buildingsSinceIntersection++;
         }
     }
 
@@ -42,12 +50,20 @@ public class CityBuilderBuildings : MonoBehaviour
     {   
         timeSinceLastSpawn += Time.deltaTime;
 
-        if(timeSinceLastSpawn > timeBetweenBuldings) 
+        if(timeSinceLastSpawn > timeBetweenBuildings) 
         {
-            SpawnBuildingOnLeft(0);
-            SpawnBuildingOnRight(0);
+            if(buildingsSinceIntersection >= intersectFrequency)
+            {
+                SpawnIntersectingObject();
+            }            
+            else
+            {
+                SpawnBuildingOnLeft(0);
+                SpawnBuildingOnRight(0);
+                buildingsSinceIntersection++;
+            }
 
-            timeSinceLastSpawn = 0;
+            timeSinceLastSpawn = 0;            
         }
         
     }
@@ -100,6 +116,18 @@ public class CityBuilderBuildings : MonoBehaviour
             }
         }
 
+    }
+
+    // places either a cross road or a bridge in the level
+    private void SpawnIntersectingObject()
+    {
+        Instantiate(intersectObjects[objectIndex], centerSpawnPoint);
+        buildingsSinceIntersection = 0;
+
+        objectIndex++;
+
+        if (objectIndex == intersectObjects.Length)
+            objectIndex = 0;
     }
 
 }
