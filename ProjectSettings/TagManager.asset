@@ -10,6 +10,7 @@ TagManager:
   - Obstacle
   - Mine
   - Weapon
+  - JumpZone
   layers:
   - Default
   - TransparentFX
@@ -20,7 +21,7 @@ TagManager:
   - Hazard
   - Enemy
   - Projectile
-  - Building
+  - Wall
   - 
   - 
   - 

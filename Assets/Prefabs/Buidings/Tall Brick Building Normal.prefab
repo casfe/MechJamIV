@@ -49896,7 +49896,7 @@ GameObject:
   - component: {fileID: 8235996922513246945}
   - component: {fileID: 455275909699892943}
   - component: {fileID: 7912309823446671629}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Tall Brick Building Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -49918,7 +49918,7 @@ Transform:
   - {fileID: 7081152061475446880}
   - {fileID: 3713070618852011010}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!65 &455275909699892943
 BoxCollider:
@@ -49953,7 +49953,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63941d2b4597bfc4aaff3acb6c1b27d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 30
 --- !u!1 &7287307918997130927
 GameObject:
   m_ObjectHideFlags: 0

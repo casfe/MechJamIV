@@ -99,7 +99,6 @@ public class PlayerController : MonoBehaviour
     {
         onCollisionWithObstacle.Invoke();
         animator.SetTrigger("Die");
-        //GetComponent<PlayerMovement>().enabled = false;
         gameManager.GameRunning = false;
 
         this.enabled = false;
