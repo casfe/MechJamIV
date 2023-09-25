@@ -409,6 +409,8 @@ MonoBehaviour:
   leftPoint: {fileID: 0}
   middlePoint: {fileID: 0}
   groundedPoint: {fileID: 3390586828175727828}
+  leftSidePoint: {fileID: 404848022809345506}
+  rightSidePoint: {fileID: 5119778467487387789}
   horizontalSpeed: 20
   jumpSpeed: 30
   jumpHeight: 4.03

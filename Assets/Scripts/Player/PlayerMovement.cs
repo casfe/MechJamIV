@@ -1,19 +1,27 @@
 using FMOD;
-using System.Net.NetworkInformation;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using Debug = UnityEngine.Debug;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Position { LeftLane, MiddleLane, RightLane, LeftWall, RightWall}
-    enum MovementType { Running, Sliding, VerticalJump, SidewaysJump, JumpDownward}
+    enum Position { 
+        LeftLane = -1, 
+        MiddleLane = 0, 
+        RightLane = 1, 
+        LeftWall = -2, 
+        RightWall = 2
+    }
+
+    enum MovementType { Run, Slide, VerticalJump, VerticalFall, JumpToWall, WallRun, JumpAcross, JumpFromWall}
 
     #region variable declaration
-    [Header("- - - - [Markers] - - - -")]
-    [SerializeField] GameObject rightPoint;
-    [SerializeField] GameObject leftPoint, middlePoint;
+    [Header("Lane positions")]
+    [SerializeField] Transform rightPoint;
+    [SerializeField] Transform leftPoint;
+    [SerializeField] Transform middlePoint;
+
+    [Header("Raycast points")]
     [SerializeField] Transform groundedPoint;
     [SerializeField] Transform leftSidePoint;
     [SerializeField] Transform rightSidePoint;
@@ -23,21 +31,20 @@ public class PlayerMovement : MonoBehaviour
     int actualPosition = 1;
     #endregion
 
-    #region movementVariables
-    [Header("- - - - [Movement] - - - -")]
+    #region movement Variables
+    [Header("Movement Variables")]
     [SerializeField] float horizontalSpeed = 10;
     [SerializeField] float jumpSpeed = 9.8f;
     [SerializeField] float jumpHeight = 2;
     [SerializeField] float sidewaysJumpSpeed = 10;
     [SerializeField] float fallSpeed = 9.8f;
-    //[SerializeField] float duckTime;
     float targetX;
     //This float gets 1 or -1 depending of what side player is going
     float side = 1;
 
     private Vector3 origin;
 
-    private bool leftPressed, rightPressed, upPressed, downPressed;
+    private bool leftPressed, rightPressed, upPressed, downPressed, verticalPressed, horizontalPressed;
 
     [Header("Debugging")]
     [SerializeField] bool isGrounded;
@@ -51,18 +58,11 @@ public class PlayerMovement : MonoBehaviour
     #endregion
 
     // other variables
+    bool appliedMovement = false;
+    MovementType state;
     private Vector3 jumpDirection;
-    // flags
     private bool inWallJumpZone = false;
-    private bool sidewaysJump = false;
-    private bool wallRunning = false;
-    private bool wallJumping = false;
     private Position currentLane = Position.MiddleLane;
-    #endregion
-
-    #region properties
-    public bool Jumping { get; set; } = false;
-    public bool Ducking { get; private set; } = false;
     #endregion
 
     #region start and update
@@ -72,104 +72,129 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponentInChildren<Animator>();
 
         origin = transform.position;
+        state = MovementType.Run;
     }
 
     private void Update()
     {
-        if (GameManager.Instance.GameRunning)
+        if (!GameManager.Instance.GameRunning)
+            return;
+
+        // perform ground check
+        isGrounded = IsGrounded();
+        animator.SetBool("onGround", isGrounded);
+
+        UpdateInput();
+
+        switch (state)
         {
-            leftPressed = Input.GetKeyDown(KeyCode.LeftArrow) || Input.GetKeyDown(KeyCode.A);
-            rightPressed = Input.GetKeyDown(KeyCode.RightArrow) || Input.GetKeyDown(KeyCode.D);
-            upPressed = Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.W);
-            downPressed = Input.GetKeyDown(KeyCode.DownArrow) || Input.GetKeyDown(KeyCode.S);
-            
-            // Check if the player is currently still on a lane
-            if (targetX == transform.position.x && !Jumping && !Ducking && isGrounded)
-            {
-                //Check if key pressed
-                if (leftPressed)
-                {
-                    goLeft();
-                }
-                else if (rightPressed)
-                    goRight();
-                else if (upPressed)
-                    Jump();
-                else if (downPressed)
-                    Duck();
-            }
-            else if (wallRunning) // if the player is on a wall
-            {
-                if (leftPressed && currentLane == Position.RightWall)
-                {
-                    wallRunning = false;
-                    wallJumping = true;
-                    side = -1;
-                    animator.SetTrigger("Jump");
-                    animator.SetTrigger("Fall");
-                }
-
-                if (rightPressed && currentLane == Position.LeftWall)
-                {
-                    wallRunning = false;
-                    wallJumping = true;
-                    side = 1;
-                    animator.SetTrigger("Jump");
-                    animator.SetTrigger("Fall");
-                }
-            }
-
-            isGrounded = IsGrounded();
-
-            if (!Jumping && !Ducking && isGrounded)
-                PerformHorizontalMovement();
-
-            // fall if in air and not attached to a building
-            if (!isGrounded && !wallRunning)
-            {
-                if (wallJumping)
-                {
-                    Vector3 velocity = new Vector3();
-
-                    velocity += Vector3.down * fallSpeed;
-
-                    if (side > 0)
-                        velocity += Vector3.right * horizontalSpeed;
-                    else if (side < 0)
-                        velocity += Vector3.left * horizontalSpeed;
-
-                    controller.Move(velocity * Time.deltaTime);
-                }
-                else
-                {
-                    controller.Move(Vector3.down * fallSpeed * Time.deltaTime);
-                }
-
-                if (isGrounded)
-                {
-                    Jumping = false;
-                    wallJumping = false;
-                }
-            }
-
-            animator.SetBool("onGround", isGrounded);
-
-            if (Jumping)
-            {
-                if (sidewaysJump)
-                    UpdateSidewaysJump();
-                else
-                    UpdateJump();
-            }
-
-            if (wallRunning)
-                UpdateWallRun();
-        }
+            case MovementType.Run: UpdateRun(); break;
+            case MovementType.Slide: break;
+            case MovementType.VerticalJump: UpdateJump(); break;
+            case MovementType.VerticalFall: UpdateFall(); break;
+            case MovementType.JumpToWall: GroundToWallJump(); break;
+            case MovementType.WallRun: UpdateWallRun(); break;
+            case MovementType.JumpFromWall: WallToGroundJump(); break;
+        }           
+        
     }
     #endregion
 
     #region private custom functions
-    private void PerformHorizontalMovement()
+    // Get the input from the player and applies actions based on the input
+    private void UpdateInput()
+    {
+        horizontalPressed = Input.GetAxisRaw("Horizontal") != 0;
+        verticalPressed = Input.GetAxisRaw("Vertical") != 0;        
+
+        leftPressed = Input.GetAxisRaw("Horizontal") < 0;
+        rightPressed = Input.GetAxisRaw("Horizontal") > 0;
+        upPressed = Input.GetAxisRaw("Vertical") > 0;
+        downPressed = Input.GetAxisRaw("Vertical") < 0;
+
+        if (state == MovementType.Run && !appliedMovement)
+        {
+            if (leftPressed) 
+                ChangeLane(-1);
+            else if (rightPressed) 
+                ChangeLane(1);
+            else if (upPressed)
+            {
+                if (inWallJumpZone)
+                    SetState(MovementType.JumpToWall);
+                else
+                    SetState(MovementType.VerticalJump);
+            }
+            else if (downPressed)
+                SetState(MovementType.Slide);
+        }
+        else if(state == MovementType.WallRun)
+        {
+            if(leftPressed && currentLane == Position.RightWall)
+            {
+                side = -1;
+                SetState(MovementType.JumpFromWall);
+            }
+
+            if(rightPressed && currentLane == Position.LeftWall)
+            {
+                side = 1;
+                SetState(MovementType.JumpFromWall);
+            }
+        }
+
+        // prevent additional input until all keys are realeased
+        if (verticalPressed || horizontalPressed)
+            appliedMovement = true;        
+    }
+
+    // Set the type of player movement in the finite state machine
+    private void SetState(MovementType newState)
+    {
+        if (newState == state)
+            return;
+
+        state = newState;
+
+        // initialize the new state
+        switch(state)
+        {
+            case MovementType.Run:
+                appliedMovement = false;
+                break;
+
+            case MovementType.Slide:
+                controller.height /= 2;
+                controller.center = new Vector3(0, -0.5f, 0);
+
+                animator.SetTrigger("Slide");
+                break;
+
+            case MovementType.VerticalJump:
+                animator.SetTrigger("Jump");
+            break;
+
+            case MovementType.JumpToWall:
+                animator.SetTrigger("Jump");
+            break;
+
+            case MovementType.WallRun:
+                if (jumpDirection == Vector3.left)
+                    animator.SetTrigger("LeftWall");
+
+                else if (jumpDirection == Vector3.right)
+                    animator.SetTrigger("RightWall");
+
+                appliedMovement = false;
+                break;
+
+            case MovementType.JumpFromWall:
+                    animator.SetTrigger("Jump");
+                break;
+        }
+    }
+
+    private void UpdateRun()
     {
         //Perform movement
         if (targetX != transform.position.x)
@@ -178,84 +203,48 @@ public class PlayerMovement : MonoBehaviour
                     transform.position.y, transform.position.z);
         }
         else
-        {
-            currentLane = (Position) actualPosition;
+        {            
+            appliedMovement = false;
         }
 
         if (side > 0) // moving right
         {
-            if (transform.position.x >= targetX)
+            if (transform.position.x > targetX)
                 transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
 
         }
         else if (side < 0) // moving left
         {
-            if (transform.position.x <= targetX)
+            if (transform.position.x < targetX)
                 transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
         }
     }
 
-    /// <summary>
-    /// Manages player pushing A button to move left.
-    /// </summary>
-    private void goLeft() 
+    private void ChangeLane(int direction)
     {
-        switch(actualPosition) 
+        if ((int) currentLane <= -1 && direction < 0)
+            return;
+
+        if ((int)currentLane >= 1 && direction > 0)
+            return;
+
+        side = direction;
+        currentLane += direction;
+
+        switch(currentLane)
         {
-            default:
-            case 0: break;
-            case 1:
-                side = -1;
-                actualPosition = 0;
-                targetX = leftPoint.transform.position.x;                
+            case Position.LeftLane:
+                targetX = leftPoint.position.x;
                 break;
-            case 2:
-                side = -1;
-                actualPosition = 1;
-                targetX = middlePoint.transform.position.x;                
+
+            case Position.MiddleLane:
+                targetX = middlePoint.position.x;
+                break;
+
+            case Position.RightLane: 
+                targetX = rightPoint.position.x;
                 break;
         }
-    }
-
-    /// <summary>
-    /// Manages player pushing D button to move right
-    /// </summary>
-    private void goRight()
-    {
-        switch (actualPosition)
-        {
-            default:
-            case 2: break;
-            case 1:
-                side = 1;
-                actualPosition = 2;
-                targetX = rightPoint.transform.position.x;
-                break;
-            case 0:
-                side = 1;
-                actualPosition = 1;
-                targetX = middlePoint.transform.position.x;
-                break;
-        }
-    }
-
-    private void Jump()
-    {
-        //Debug.Log("Jump triggered");
-        animator.SetTrigger("Jump");
-        Jumping = true;
-
-        if (inWallJumpZone)
-            sidewaysJump = true;
-    }
-
-    private void Duck()
-    {
-        controller.height /= 2;
-        controller.center = new Vector3(0, -0.5f, 0);
-
-        animator.SetTrigger("Slide");
-        Ducking = true;
     }
 
     private void StartWallRun(Vector3 direction)
@@ -264,8 +253,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetTrigger("LeftWall");
         else if (direction == Vector3.right)
             animator.SetTrigger("RightWall");
-
-        wallRunning = true;
 
         Debug.Log("Start of wall run");
     }
@@ -279,11 +266,20 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Jumping = false;
+            SetState(MovementType.VerticalFall);
         }
     }
 
-    private void UpdateSidewaysJump()
+    // Pushed player down towards ground
+    private void UpdateFall()
+    {
+        controller.Move(Vector3.down * fallSpeed * Time.deltaTime);
+
+        if (IsGrounded())
+            SetState(MovementType.Run);
+    }
+
+    private void GroundToWallJump()
     {
         Vector3 velocity = new Vector3();
 
@@ -301,12 +297,10 @@ public class PlayerMovement : MonoBehaviour
         velocity += Vector3.up * jumpSpeed;
         velocity += jumpDirection * sidewaysJumpSpeed;
 
-        //if (IsOnWall(Vector3.left) || IsOnWall(Vector3.right))
         if (OnLeftWall() || OnRightWall())
         {
             Debug.Log("Hit Wall");
-            StartWallRun(jumpDirection);
-            Jumping = false;            
+            SetState(MovementType.WallRun);           
         }
         else
         {
@@ -315,11 +309,30 @@ public class PlayerMovement : MonoBehaviour
 
     }
 
+    // Moves the player off the building back onto the road
+    private void WallToGroundJump()
+    {
+        Vector3 velocity = new Vector3();
+
+        velocity += Vector3.down * fallSpeed;
+
+        if (side > 0)
+            velocity += Vector3.right * horizontalSpeed;
+        else if (side < 0)
+            velocity += Vector3.left * horizontalSpeed;
+
+        controller.Move(velocity * Time.deltaTime);
+
+        if(IsGrounded())
+        {
+            SetState(MovementType.Run);
+        }
+    }
+
     private void UpdateWallRun()
     {
         if(!OnLeftWall() && !OnRightWall())
-        {
-            wallRunning = false;
+        {            
             animator.SetTrigger("Fall");
 
             Debug.Log("Off the wall");
@@ -327,8 +340,10 @@ public class PlayerMovement : MonoBehaviour
         }
 
         Debug.Log("Running on wall");
+
     }
 
+    #region Ground and wall checks
     private bool IsGrounded()
     {
         return Physics.Raycast(groundedPoint.position, Vector3.down, downwardRaycastLength);
@@ -372,6 +387,7 @@ public class PlayerMovement : MonoBehaviour
 
         return false;
     }
+    #endregion
 
     #endregion
 
@@ -395,13 +411,15 @@ public class PlayerMovement : MonoBehaviour
     }
 
     /// <summary>
-    /// Rentuns collider to the original height and clears ducking flag
+    /// Rentuns collider to the original height and changes back to running state
     /// </summary>
     public void StandUp()
     {
         controller.height *= 2;
         controller.center = Vector3.zero;
-        Ducking = false;
+        //Ducking = false;
+
+        SetState(MovementType.Run);
     }
     #endregion region
 

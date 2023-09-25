@@ -11,10 +11,11 @@ public class AnimationEvents : MonoBehaviour
         movement = GetComponentInParent<PlayerMovement>();
     }
 
+    /*
     public void EndJump()
     {
         movement.Jumping = false;
-    }
+    }*/
 
     public void EndSlide()
     {
