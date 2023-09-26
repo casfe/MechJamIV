@@ -1,56 +1,54 @@
 using FMOD;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using static UnityEngine.LightAnchor;
 using Debug = UnityEngine.Debug;
 
 public class PlayerMovement : MonoBehaviour
 {
-    enum Position { 
-        LeftLane = -1, 
-        MiddleLane = 0, 
-        RightLane = 1, 
-        LeftWall = -2, 
-        RightWall = 2
-    }
-
     enum MovementType { Run, Slide, VerticalJump, VerticalFall, JumpToWall, WallRun, JumpAcross, JumpFromWall}
 
     #region variable declaration
-    [Header("Lane positions")]
-    [SerializeField] Transform rightPoint;
-    [SerializeField] Transform leftPoint;
-    [SerializeField] Transform middlePoint;
 
-    [Header("Raycast points")]
+    #region public variables
+    [Header("Lane Positions")]    
+    [SerializeField] Transform leftLane;
+    [SerializeField] Transform rightLane;
+    [SerializeField] Transform middleLane;
+    [SerializeField] Transform leftWall, rightWall;
+    [SerializeField] Transform middleWallPoint;
+
+    [Header("Ground and Wall Detection")]
     [SerializeField] Transform groundedPoint;
     [SerializeField] Transform leftSidePoint;
     [SerializeField] Transform rightSidePoint;
+    [SerializeField] float downwardRaycastLength = 0.2f;
+    [SerializeField] float sidewaysRaycastLength = 1.0f;
 
-    #region Auxiliar variables
-    //Left = 0; Middle = 1; Right = 2
-    int actualPosition = 1;
-    #endregion
-
-    #region movement Variables
     [Header("Movement Variables")]
     [SerializeField] float horizontalSpeed = 10;
     [SerializeField] float jumpSpeed = 9.8f;
     [SerializeField] float jumpHeight = 2;
     [SerializeField] float sidewaysJumpSpeed = 10;
     [SerializeField] float fallSpeed = 9.8f;
-    float targetX;
+    #endregion
+
+    #region private variables
+    Transform currentLane;
+    Transform targetLane;
+    //Vector3 targetLane;
+    private int position;
+
     //This float gets 1 or -1 depending of what side player is going
-    float side = 1;
+    float direction = 1;
 
     private Vector3 origin;
-
+    private bool halfwayReached = false;
     private bool leftPressed, rightPressed, upPressed, downPressed, verticalPressed, horizontalPressed;
 
     [Header("Debugging")]
-    [SerializeField] bool isGrounded;
-    [SerializeField] float downwardRaycastLength = 0.2f;
-    [SerializeField] float sidewaysRaycastLength = 1.0f;
-    #endregion
+    [SerializeField] private bool isGrounded;   
 
     #region componenets
     Animator animator;
@@ -62,7 +60,9 @@ public class PlayerMovement : MonoBehaviour
     MovementType state;
     private Vector3 jumpDirection;
     private bool inWallJumpZone = false;
-    private Position currentLane = Position.MiddleLane;
+    //private Position targetLane = Position.MiddleLane;
+    #endregion
+
     #endregion
 
     #region start and update
@@ -73,6 +73,9 @@ public class PlayerMovement : MonoBehaviour
 
         origin = transform.position;
         state = MovementType.Run;
+
+        currentLane = middleLane;
+        targetLane = currentLane;
     }
 
     private void Update()
@@ -95,7 +98,8 @@ public class PlayerMovement : MonoBehaviour
             case MovementType.JumpToWall: GroundToWallJump(); break;
             case MovementType.WallRun: UpdateWallRun(); break;
             case MovementType.JumpFromWall: WallToGroundJump(); break;
-        }           
+            case MovementType.JumpAcross: UpdateWallJump(); break;
+        }
         
     }
     #endregion
@@ -130,16 +134,31 @@ public class PlayerMovement : MonoBehaviour
         }
         else if(state == MovementType.WallRun)
         {
-            if(leftPressed && currentLane == Position.RightWall)
+            if(leftPressed && targetLane == rightWall)
             {
-                side = -1;
-                SetState(MovementType.JumpFromWall);
+                if(WallOnOppositeSide())
+                {
+                    SetState(MovementType.JumpAcross);
+                }
+                else
+                {
+                    direction = -1;
+                    SetState(MovementType.JumpFromWall);
+                }
+                
             }
 
-            if(rightPressed && currentLane == Position.LeftWall)
+            if(rightPressed && targetLane == leftWall)
             {
-                side = 1;
-                SetState(MovementType.JumpFromWall);
+                if (WallOnOppositeSide())
+                {
+                    SetState(MovementType.JumpAcross);
+                }
+                else
+                {
+                    direction = 1;
+                    SetState(MovementType.JumpFromWall);
+                }
             }
         }
 
@@ -174,89 +193,118 @@ public class PlayerMovement : MonoBehaviour
                 animator.SetTrigger("Jump");
             break;
 
+            case MovementType.VerticalFall:
+                animator.SetTrigger("Fall");
+            break;
+
             case MovementType.JumpToWall:
                 animator.SetTrigger("Jump");
             break;
 
             case MovementType.WallRun:
-                if (jumpDirection == Vector3.left)
+                if (targetLane == leftWall)
                     animator.SetTrigger("LeftWall");
 
-                else if (jumpDirection == Vector3.right)
+                else if (targetLane == rightWall)
                     animator.SetTrigger("RightWall");
 
                 appliedMovement = false;
                 break;
 
             case MovementType.JumpFromWall:
-                    animator.SetTrigger("Jump");
+                animator.SetTrigger("Jump");
+
+                if (direction > 0)
+                {
+                    targetLane = leftLane;
+                }
+                else if (direction < 0)
+                {
+                    targetLane = rightLane;
+                }
+
                 break;
+
+            case MovementType.JumpAcross:
+                animator.SetTrigger("Jump");
+
+                if (targetLane == leftWall)
+                {
+                    targetLane = rightWall;
+                    direction = 1;
+                }
+                else if (targetLane == rightWall)
+                {
+                    targetLane = leftWall;
+                    direction = -1;            
+                }
+
+                origin = transform.position;
+                halfwayReached = false;
+            break;
         }
     }
 
+    // Moves the player across lanes on the on the road whenever the lane changes
+    // Once the player has reached the lane it stops moving
     private void UpdateRun()
     {
-        //Perform movement
-        if (targetX != transform.position.x)
+        if(!isGrounded)
         {
-             transform.position = new Vector3(transform.position.x + horizontalSpeed * side * Time.deltaTime,
+            SetState(MovementType.VerticalFall);
+            return;
+        }
+
+        //Perform movement
+        if (transform.position.x != targetLane.position.x)
+        {
+             transform.position = new Vector3(transform.position.x + horizontalSpeed * direction * Time.deltaTime,
                     transform.position.y, transform.position.z);
         }
         else
-        {            
+        {
             appliedMovement = false;
         }
 
-        if (side > 0) // moving right
-        {
-            if (transform.position.x > targetX)
-                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
-
+        if (direction > 0 && transform.position.x > targetLane.position.x) // moving right
+        {            
+            transform.position = new Vector3(targetLane.position.x, transform.position.y, transform.position.z);
         }
-        else if (side < 0) // moving left
-        {
-            if (transform.position.x < targetX)
-                transform.position = new Vector3(targetX, transform.position.y, transform.position.z);
+        else if (direction < 0 && transform.position.x < targetLane.position.x) // moving left
+        {            
+            transform.position = new Vector3(targetLane.position.x, transform.position.y, transform.position.z);
         }
     }
 
+    // Sets the new lane on the roade that the player moves to when pressing left or right
     private void ChangeLane(int direction)
     {
-        if ((int) currentLane <= -1 && direction < 0)
+        if (position <= -1 && direction < 0)
             return;
 
-        if ((int)currentLane >= 1 && direction > 0)
+        if (position >= 1 && direction > 0)
             return;
 
-        side = direction;
-        currentLane += direction;
+        this.direction = direction;
+        position += direction;
 
-        switch(currentLane)
+        switch(position)
         {
-            case Position.LeftLane:
-                targetX = leftPoint.position.x;
+            case -1:
+                targetLane = leftLane;
                 break;
 
-            case Position.MiddleLane:
-                targetX = middlePoint.position.x;
+            case 0:
+                targetLane = middleLane;
                 break;
 
-            case Position.RightLane: 
-                targetX = rightPoint.position.x;
+            case 1:
+                targetLane = rightLane;
                 break;
         }
     }
 
-    private void StartWallRun(Vector3 direction)
-    {
-        if (direction == Vector3.left)
-            animator.SetTrigger("LeftWall");
-        else if (direction == Vector3.right)
-            animator.SetTrigger("RightWall");
-
-        Debug.Log("Start of wall run");
-    }
-
+    // Moves the player upwards when performing a vertical jump
     private void UpdateJump()
     {
         // check that we have not yet reached max height
@@ -275,72 +323,92 @@ public class PlayerMovement : MonoBehaviour
     {
         controller.Move(Vector3.down * fallSpeed * Time.deltaTime);
 
-        if (IsGrounded())
+        if (isGrounded)
             SetState(MovementType.Run);
     }
 
+    // Moves the player from the road to to one of the wall point transforms
     private void GroundToWallJump()
     {
-        Vector3 velocity = new Vector3();
-
-        if (currentLane == Position.LeftLane)
+        if (targetLane == leftLane)
         {
-            jumpDirection = Vector3.left;
-            currentLane = Position.LeftWall;
+            targetLane = leftWall;
+            jumpDirection = leftWall.position - leftLane.position;
         }
-        else if (currentLane == Position.RightLane)
+        else if (targetLane == rightLane)
         {
-            jumpDirection = Vector3.right;
-            currentLane = Position.RightLane;
+            targetLane = rightWall;
+            jumpDirection = rightWall.position - rightLane.position;
         }
 
-        velocity += Vector3.up * jumpSpeed;
-        velocity += jumpDirection * sidewaysJumpSpeed;
+        jumpDirection = targetLane.position - transform.position;
+        jumpDirection.Normalize();
 
         if (OnLeftWall() || OnRightWall())
         {
-            Debug.Log("Hit Wall");
             SetState(MovementType.WallRun);           
         }
         else
         {
-            controller.Move(velocity * Time.deltaTime);
+            controller.Move(jumpDirection * sidewaysJumpSpeed * Time.deltaTime);
         }
 
     }
 
-    // Moves the player off the building back onto the road
+    // Moves the player off the building back onto the nearsest lane on the road
     private void WallToGroundJump()
     {
-        Vector3 velocity = new Vector3();
+        jumpDirection = targetLane.position - transform.position;
+        jumpDirection.Normalize();
 
-        velocity += Vector3.down * fallSpeed;
-
-        if (side > 0)
-            velocity += Vector3.right * horizontalSpeed;
-        else if (side < 0)
-            velocity += Vector3.left * horizontalSpeed;
-
-        controller.Move(velocity * Time.deltaTime);
+        controller.Move(jumpDirection * sidewaysJumpSpeed * Time.deltaTime);
 
         if(IsGrounded())
         {
+            // update the lane position number
+            if (targetLane == leftLane)
+                position = -1;
+            else if (targetLane == rightLane)
+                position = 1;
+
             SetState(MovementType.Run);
         }
     }
-
+    
     private void UpdateWallRun()
     {
         if(!OnLeftWall() && !OnRightWall())
         {            
             animator.SetTrigger("Fall");
+            SetState(MovementType.VerticalFall);
+        }
+    }
 
-            Debug.Log("Off the wall");
-            return;
+    // Moves the player across from the wall on one side to the opposite wall
+    private void UpdateWallJump()
+    {
+        if (!halfwayReached)
+        {
+            jumpDirection = middleWallPoint.position - transform.position;
+
+            if (Vector3.Distance(transform.position, middleWallPoint.position) < 0.5f)
+                halfwayReached = true;
+        }
+        else
+        {
+            jumpDirection = targetLane.position - transform.position;
         }
 
-        Debug.Log("Running on wall");
+        jumpDirection.Normalize();
 
+        controller.Move(jumpDirection * sidewaysJumpSpeed * Time.deltaTime);
+
+        if (OnLeftWall() || OnRightWall())
+            SetState(MovementType.WallRun);
+        else if (direction == 1 && transform.position.x > targetLane.position.x)
+            SetState(MovementType.VerticalFall);
+        else if (direction == -1 && transform.position.x < targetLane.position.x)
+            SetState(MovementType.VerticalFall);
     }
 
     #region Ground and wall checks
@@ -383,6 +451,30 @@ public class PlayerMovement : MonoBehaviour
                 return true;
             else
                 Debug.Log("Raycast hit " + hitInfo.transform.name);
+        }
+
+        return false;
+    }
+
+    private bool WallOnOppositeSide()
+    {
+        RaycastHit hitInfo;
+
+        if (targetLane == leftWall)
+        {
+            if (Physics.Raycast(rightSidePoint.position, Vector3.right, out hitInfo))                
+            {
+                if (hitInfo.transform.gameObject.layer == 9) // Wall layer
+                    return true;
+            }            
+        }
+        else if (targetLane == rightWall)
+        {
+            if (Physics.Raycast(leftSidePoint.position, Vector3.left, out hitInfo))
+            {
+                if (hitInfo.transform.gameObject.layer == 9) // Wall layer
+                    return true;
+            }
         }
 
         return false;
