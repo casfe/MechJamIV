@@ -64,7 +64,7 @@ public class LaserAttack : EnemyAttack
     {
         base.OnEnable();
 
-        laserLine = laserGunSet.GetComponent<LineRenderer>();
+        laserLine = laserCannon.GetComponent<LineRenderer>();
 
         iterations = 0;
 
@@ -175,8 +175,12 @@ public class LaserAttack : EnemyAttack
         Vector3 cannonPointDirection = new Vector3(0, aimVector.y, aimVectorXZ.magnitude).normalized;
         laserCannon.localRotation = Quaternion.LookRotation(cannonPointDirection, Vector3.up);
 
+
+        //aimVector.Normalize();
+
         //Debug.DrawRay(firePoint.position, -cannonPointDirection * 100, Color.yellow);
-        //Debug.DrawRay(firePoint.position, laserCannon.forward * 100, Color.yellow);
+        Debug.DrawRay(firePoint.position, aimVector * 1000, Color.green);
+        Debug.DrawRay(firePoint.position, laserCannon.forward * 100, Color.yellow);
     }
 
     private void UpdateLaserLine()
