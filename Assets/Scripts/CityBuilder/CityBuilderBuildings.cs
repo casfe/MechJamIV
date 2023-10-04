@@ -71,16 +71,16 @@ public class CityBuilderBuildings : MonoBehaviour
     // Spawns a building on the left-hand side of the road
     private void SpawnBuildingOnLeft(float offset)
     {
-        if(selectBuildingsRandomly)
+        GameObject buildingToSpawn;
+
+        if (selectBuildingsRandomly)
         {
             int randomPick = Random.Range(0, leftSideBuildings.Length);
-            Instantiate(leftSideBuildings[randomPick], leftSpawnPoint.position + Vector3.back * offset,
-                        leftSideBuildings[randomPick].transform.rotation, leftSpawnPoint);
+            buildingToSpawn = leftSideBuildings[randomPick];
         }
         else
         {
-            Instantiate(leftSideBuildings[leftBuildingIndex], leftSpawnPoint.position + Vector3.back * offset, 
-                        leftSideBuildings[leftBuildingIndex].transform.rotation, leftSpawnPoint);
+            buildingToSpawn = leftSideBuildings[leftBuildingIndex];
 
             if (!selectBuildingsRandomly)
             {
@@ -90,22 +90,27 @@ public class CityBuilderBuildings : MonoBehaviour
                     leftBuildingIndex = 0;
             }
         }
-        
+
+        Vector3 spawnPosition = new Vector3(leftSpawnPoint.transform.position.x, buildingToSpawn.transform.position.y,
+                                            leftSpawnPoint.position.z);
+
+        Instantiate(buildingToSpawn, spawnPosition + Vector3.back * offset, buildingToSpawn.transform.rotation, rightSpawnPoint);
     }
 
     // Spawns a building on the right-hand side of the road
     private void SpawnBuildingOnRight(float offset)
     {
+        GameObject buildingToSpawn;
+        GameObject newBuilding;
+
         if (selectBuildingsRandomly)
         {
             int randomPick = Random.Range(0, rightSideBuildings.Length);
-            Instantiate(rightSideBuildings[randomPick], rightSpawnPoint.position + Vector3.back * offset,
-                        rightSideBuildings[randomPick].transform.rotation, rightSpawnPoint);
+            buildingToSpawn = rightSideBuildings[randomPick];
         }
         else
         {
-            Instantiate(rightSideBuildings[rightBuildingIndex], rightSpawnPoint.position + Vector3.back * offset,
-                        rightSideBuildings[rightBuildingIndex].transform.rotation, rightSpawnPoint);
+            buildingToSpawn = rightSideBuildings[rightBuildingIndex];
 
             if (!selectBuildingsRandomly)
             {
@@ -116,6 +121,14 @@ public class CityBuilderBuildings : MonoBehaviour
             }
         }
 
+        Vector3 spawnPosition = new Vector3(rightSpawnPoint.transform.position.x, buildingToSpawn.transform.position.y,
+                                            rightSpawnPoint.position.z);
+
+        newBuilding = Instantiate(buildingToSpawn, spawnPosition + Vector3.back * offset,
+                                  buildingToSpawn.transform.rotation, rightSpawnPoint);
+
+        // Rotate building 180 degrees to face the right-hand side of the road
+        newBuilding.transform.Rotate(Vector3.up, 180);
     }
 
     // places either a cross road or a bridge in the level
