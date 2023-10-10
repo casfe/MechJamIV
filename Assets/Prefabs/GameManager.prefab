@@ -2357,6 +2357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4953498099263437683}
   - component: {fileID: 3808875564321079094}
+  - component: {fileID: 5983227883816615436}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -2498,6 +2499,48 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5983227883816615436
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8472516690119164254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6ee9d96dce32d4a4d8abadf005aaea75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftSpawnPoint: {fileID: 0}
+  rightSpawnPoint: {fileID: 0}
+  centerSpawnPoint: {fileID: 0}
+  spawnRoads: 1
+  roadPrefab: {fileID: 1226282846740787757, guid: 8ad48d4a6f065d8428e154f771b5eec1, type: 3}
+  roadsParent: {fileID: 0}
+  startRoadsCounter: 5
+  timeToSpawnRoad: 1.5
+  roadSpawnOffset: 48
+  spawnBuildings: 1
+  selectBuildingsRandomly: 0
+  leftSideBuildings:
+  - {fileID: 1735163787573203278, guid: 66d8b8edd1b3a3142bfa67399606016b, type: 3}
+  - {fileID: 730704644310125200, guid: eb27a507ed581b943a3e52bab791e954, type: 3}
+  - {fileID: 1770053523239879704, guid: bb2e6945f891eee44ab794a02e8ddc5b, type: 3}
+  - {fileID: 7175886725336921434, guid: 3568d86a20b4c36418224b7162d29621, type: 3}
+  rightSideBuildings:
+  - {fileID: 6882624885036607812, guid: b38b03d1ffe789d49bd1fdd2a47254ff, type: 3}
+  - {fileID: 6915614146815623574, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
+  - {fileID: 1770053523239879704, guid: bb2e6945f891eee44ab794a02e8ddc5b, type: 3}
+  - {fileID: 7175886725336921434, guid: 3568d86a20b4c36418224b7162d29621, type: 3}
+  startingBuildingsPerSide: 12
+  buildingSpawnOffset: 18
+  timeBetweenBuildings: 0.5
+  spawnIntersections: 1
+  intersection: {fileID: 6513140049245056624, guid: fd8e43e40fb22584ebe3b3c82805351f, type: 3}
+  spawnBridges: 1
+  bridgePrefab: {fileID: 8004366037309800794, guid: 6df8f92e2fdf8e04d97c29485b9ce6ad, type: 3}
+  minSpawnFrequency: 5
+  maxSpawnFrequency: 10
 --- !u!1 &8563874505898809829
 GameObject:
   m_ObjectHideFlags: 0
