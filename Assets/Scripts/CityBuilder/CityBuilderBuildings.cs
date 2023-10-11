@@ -94,7 +94,7 @@ public class CityBuilderBuildings : MonoBehaviour
         Vector3 spawnPosition = new Vector3(leftSpawnPoint.transform.position.x, buildingToSpawn.transform.position.y,
                                             leftSpawnPoint.position.z);
 
-        Instantiate(buildingToSpawn, spawnPosition + Vector3.back * offset, buildingToSpawn.transform.rotation, rightSpawnPoint);
+        Instantiate(buildingToSpawn, spawnPosition + Vector3.back * offset, buildingToSpawn.transform.rotation, leftSpawnPoint);
     }
 
     // Spawns a building on the right-hand side of the road
@@ -126,9 +126,6 @@ public class CityBuilderBuildings : MonoBehaviour
 
         newBuilding = Instantiate(buildingToSpawn, spawnPosition + Vector3.back * offset,
                                   buildingToSpawn.transform.rotation, rightSpawnPoint);
-
-        // Rotate building 180 degrees to face the right-hand side of the road
-        newBuilding.transform.Rotate(Vector3.up, 180);
     }
 
     // places either a cross road or a bridge in the level

@@ -795,7 +795,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8156858637238461236, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8291791490256431354, guid: 2f1f1dcdadf190d4e900471a280b97d0, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1314,7 +1314,7 @@ Light:
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
   m_Shadows:
-    m_Type: 2
+    m_Type: 1
     m_Resolution: -1
     m_CustomResolution: -1
     m_Strength: 1
@@ -1835,11 +1835,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4148038497596778643, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4743568552123242671, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: m_Enabled
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: m_Enabled
@@ -1892,11 +1892,11 @@ PrefabInstance:
     - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: leftSideBuildings.Array.data[2]
       value: 
-      objectReference: {fileID: 1770053523239879704, guid: bb2e6945f891eee44ab794a02e8ddc5b, type: 3}
+      objectReference: {fileID: 7507685639653383471, guid: d0ebac60a765003489a6ead1633ddcde, type: 3}
     - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: leftSideBuildings.Array.data[3]
       value: 
-      objectReference: {fileID: 7175886725336921434, guid: 3568d86a20b4c36418224b7162d29621, type: 3}
+      objectReference: {fileID: 3228605538225746668, guid: f74331c3d9d53804bb5d92f54b5479b1, type: 3}
     - target: {fileID: 4931237898788256288, guid: 669d364844881544d816bebc9f4aeb2a, type: 3}
       propertyPath: rightSideBuildings.Array.data[0]
       value: 

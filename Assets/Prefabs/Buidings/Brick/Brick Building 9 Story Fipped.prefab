@@ -30,10 +30,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4783833826711265940, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4783833826711265940, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
-      propertyPath: m_LocalRotation.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4783833826711265940, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
@@ -58,7 +54,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6915614146815623574, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
       propertyPath: m_Name
-      value: Brick Building 9 Story Variant
+      value: Brick Building 9 Story Fipped
       objectReference: {fileID: 0}
     - target: {fileID: 7934366329399443736, guid: 59bbd2a93579a5c4b9c118b56b4dff99, type: 3}
       propertyPath: m_LocalScale.x
