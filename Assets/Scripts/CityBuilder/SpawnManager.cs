@@ -13,6 +13,7 @@ public class SpawnManager : MonoBehaviour
     [Header("--- Road Spawning ---")]
     [SerializeField] bool spawnRoads = true;
     [SerializeField] GameObject roadPrefab;
+    [SerializeField] GameObject firstRoad;
     [SerializeField] Transform roadsParent;
     [SerializeField] int startRoadsCounter = 5;
     [SerializeField] float timeToSpawnRoad = 1.5f;
@@ -63,6 +64,8 @@ public class SpawnManager : MonoBehaviour
         // spawn starting roads
         if(spawnRoads)
         {
+            lastRoad = firstRoad;
+
             // spawn starting roads
             for (int i = 0; i < startRoadsCounter; i++)
             {
@@ -195,7 +198,7 @@ public class SpawnManager : MonoBehaviour
                                   buildingToSpawn.transform.rotation, rightSpawnPoint);
 
         // Rotate building 180 degrees to face the right-hand side of the road
-        newBuilding.transform.Rotate(Vector3.up, 180);
+        //newBuilding.transform.Rotate(Vector3.up, 180);
     }
 
 
